@@ -7,12 +7,41 @@
       <img src="./assets/logo.png" alt="Vue.js PWA">
       <router-view></router-view>
     </main>
+    <form @submit="sendData">
+      <input v-model="data" type="text">
+      <input type="submit" value="Submit">
+    </form>
+    <ul>
+      <li v-for="data in getData" :key="data['.key']">{{ data.data }}</li>
+    </ul>
+    
   </div>
 </template>
 
 <script>
+import Firebase from 'firebase'
+import fireConfig from './firebase/config.js'
+
+const firebaseApp = Firebase.initializeApp(fireConfig)
+const db = firebaseApp.database()
+
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+    return {
+      data: ''
+    }
+  },
+  firebase: {
+    getData: db.ref('/data/')
+  },
+  methods: {
+    sendData () {
+      db.ref('/data/').push({
+        data: this.data
+      })
+    }
+  }
 }
 </script>
 
