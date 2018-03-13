@@ -1,47 +1,18 @@
 <template>
   <div id="app">
     <header>
-      <span>Vue.js PWA</span>
+      <span>Carin Website Managment</span>
     </header>
     <main>
       <img src="./assets/logo.png" alt="Vue.js PWA">
       <router-view></router-view>
     </main>
-    <form @submit="sendData">
-      <input v-model="data" type="text">
-      <input type="submit" value="Submit">
-    </form>
-    <ul>
-      <li v-for="data in getData" :key="data['.key']">{{ data.data }}</li>
-    </ul>
-    
   </div>
 </template>
 
 <script>
-import Firebase from 'firebase'
-import fireConfig from './firebase/config.js'
-
-const firebaseApp = Firebase.initializeApp(fireConfig)
-const db = firebaseApp.database()
-
 export default {
-  name: 'app',
-  data () {
-    return {
-      data: ''
-    }
-  },
-  firebase: {
-    getData: db.ref('/data/')
-  },
-  methods: {
-    sendData () {
-      db.ref('/data/').push({
-        data: this.data
-      })
-    }
-  }
+  name: 'app'
 }
 </script>
 
@@ -66,7 +37,7 @@ header {
   margin: 0;
   height: 56px;
   padding: 0 16px 0 24px;
-  background-color: #35495E;
+  background-color: rgb(109, 126, 143);
   color: #ffffff;
 }
 
