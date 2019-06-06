@@ -1,0 +1,82 @@
+<template>
+  <section>
+    <!-- LOADER -->
+    <loader v-if="!getProject"></loader>
+    <!-- TITLE -->
+    <v-container v-if="getProject && getProject.showStepper">
+      <h1 class="display-2 font-weight-medium">{{ getProject.title }}</h1>
+    </v-container>
+    <!-- STEPPER -->
+    <project-steppper
+      :projectID="$route.params.projectID"
+      :projectData="getProject"
+      v-if="getProject && getProject.showStepper"
+    ></project-steppper>
+
+    <!-- Sidebar -->
+    <router-view :projectData="getProject"></router-view>
+    <!-- SITE MAP -->
+
+    <!-- SIDEBARS -->
+  </section>
+</template>
+
+<script>
+import Loader from "../global/loader.vue";
+import ProjectStepper from "./Project__stepper.vue";
+export default {
+  components: {
+    loader: Loader,
+    "project-steppper": ProjectStepper
+  },
+  data() {
+    return {};
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.$store.commit("Projects/SET_PROJECT_DATA", null);
+    });
+  },
+  created() {
+    if (this.currentTeam) {
+      this.getData(this.currentTeam);
+    }
+  },
+  computed: {
+    currentTeam: {
+      get() {
+        return this.$store.getters["Teams/currentTeam"];
+      }
+    },
+    getProject() {
+      let data = this.$store.getters["Projects/projectData"];
+      // if (data && data.showStepper === false) {
+      //   this.$router.push({ name: "ProjectOverview" });
+      // }
+      return data;
+    }
+  },
+  watch: {
+    // Needed for page reload
+    currentTeam(val) {
+      if (val !== null) {
+        this.getData(val);
+      }
+    }
+  },
+  methods: {
+    getData(currentTeam) {
+      const project = this.$route.params.projectID;
+      this.$store.dispatch("Projects/getProjectData", {
+        project,
+        currentTeam
+      });
+    },
+    edit() {
+      this.$store.commit("Projects/SHOW_STEPPER", true);
+    }
+  }
+};
+</script>
+
+<style lang="stylus" scoped></style>
