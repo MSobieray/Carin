@@ -63,10 +63,10 @@ const createTeam = ({ commit, rootState }, team) => {
       console.log(err);
     });
 };
-const getTeams = ({ commit }, payload) => {
+const getTeams = ({ commit, rootState }) => {
   firestore
     .collection("Teams")
-    .where(`teamMembers.${payload.uid}.status`, "==", "active")
+    .where(`teamMembers.${rootState.Auth.user.uid}.status`, "==", "active")
     .get()
     .then(querySnapshot => {
       if (querySnapshot) {

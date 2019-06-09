@@ -35,15 +35,15 @@ auth.onAuthStateChanged(user => {
     router,
     store,
     render: h => h(App),
-    created() {
-      // Check if user is logged in or redirect them to the login page
+    async created() {
       if (user) {
-        // Set the user in the store
-        this.$store.commit("Auth/LOGIN", user);
-        // Get and set the users teams
-        this.$store.dispatch("Teams/getTeams", user);
-        // Get Current Team
-        this.$store.dispatch("Teams/getCurrentTeam");
+        try {
+          await this.$store.commit("Auth/LOGIN", user);
+          this.$store.dispatch("Teams/getCurrentTeam");
+          this.$store.dispatch("Teams/getTeams");
+        } catch (err) {
+          console.log(err);
+        }
       } else {
         router.push("/login");
       }
