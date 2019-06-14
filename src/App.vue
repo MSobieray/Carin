@@ -66,7 +66,8 @@
     </v-toolbar>
     <!-- START Content -->
     <v-content>
-      <router-view></router-view>
+      <router-view />
+      <notification />
     </v-content>
     <!-- START FOOTER -->
     <v-footer v-show="this.user" app fixed height="auto">
@@ -86,8 +87,13 @@
 </template>
 
 <script>
+import notification from "./components/global/notification";
 export default {
   name: "app",
+
+  components: {
+    notification
+  },
   data: () => ({
     drawer: false
   }),
