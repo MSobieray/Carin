@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <v-layout column v-if="projects.length != 0">
+    <v-layout column v-if="projects.length !== 0">
       <v-flex xs12 sm6>
         <v-card>
           <v-container fluid grid-list-md>
@@ -74,9 +74,14 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-layout d-flex v-else>
+    <v-layout d-flex v-else-if="loading">
       <v-container>
-        <h4 class="title">Create Your First Project</h4>
+        <loader />
+      </v-container>
+    </v-layout>
+    <v-layout v-else>
+      <v-container>
+        <h1 class="title">Create Your First Project</h1>
       </v-container>
     </v-layout>
     <v-layout>
@@ -90,6 +95,8 @@
       >
         <v-icon>add</v-icon>
       </v-btn>
+
+      <!-- TODO: Create A modal Component with a SLOT -->
       <v-dialog
         v-model="modal"
         max-width="1000"
@@ -130,8 +137,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import loader from "./global/loader";
 export default {
   name: "home",
+  components: {
+    loader
+  },
   data() {
     return {
       modal: false,
@@ -146,9 +158,8 @@ export default {
     };
   },
   computed: {
-    projects() {
-      return this.$store.getters["Projects/projects"];
-    },
+    ...mapState("Projects", ["projects"]),
+    ...mapState(["loading"]),
     currentTeam() {
       return this.$store.getters["Teams/currentTeam"];
     }

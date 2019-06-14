@@ -9,7 +9,8 @@ const createProject = ({ rootState }, project) => {
   projectDoc.set(project);
 };
 
-const getProjects = ({ commit }, currentTeam) => {
+const getProjects = ({ commit, dispatch }, currentTeam) => {
+  dispatch("loading", true, { root: true });
   const projectRef = firestore
     .collection("Teams")
     .doc(currentTeam)
@@ -21,6 +22,7 @@ const getProjects = ({ commit }, currentTeam) => {
       projects.push([project.data(), project.id]);
     });
     commit("SET_PROJECTS", projects);
+    dispatch("loading", false, { root: true });
   });
 };
 

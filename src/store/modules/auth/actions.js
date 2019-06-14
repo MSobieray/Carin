@@ -6,27 +6,22 @@ const createUser = user => {
   firestore.collection("users").add(user);
 };
 
-const logout = ({ commit }) => {
+const logout = ({ commit, dispatch }) => {
   auth
     .signOut()
     .then(() => {
       commit("LOGOUT");
+      dispatch("clearState", null, { root: true });
     })
     .catch(error => {
       console.log(error);
     });
 };
 
-const login = async ({ commit, dispatch }, provider) => {
+const login = async ({ dispatch }, provider) => {
   const authProvider = new firebase.auth[`${provider}AuthProvider`]();
   try {
-    const signin = await auth.signInWithPopup(authProvider);
-    const user = () => {
-      let user = signin.user;
-      commit("LOGIN", user);
-      return user;
-    };
-    dispatch("Teams/getTeams", user, { root: true });
+    await auth.signInWithPopup(authProvider);
   } catch (err) {
     // Handle Errors here.
     var errorCode = err.code;
@@ -36,6 +31,7 @@ const login = async ({ commit, dispatch }, provider) => {
     // The firebase.auth.AuthCredential type that was used.
     var credential = err.credential;
     console.log(errorCode, errorMessage, email, credential);
+    dispatch("Notifications/add", err, { root: true });
   }
   router.push("/");
 };

@@ -4,8 +4,17 @@
       <v-layout row wrap>
         <v-flex lg12 text-lg-center>
           <div v-if="!this.isLoggedIn">
-            <v-btn @click="login()" color="accent">
+            <v-btn @click="login('Google')" color="green">
               Google Login
+            </v-btn>
+            <v-btn @click="login('Github')" color="orange">
+              Github Login
+            </v-btn>
+            <v-btn @click="login('Facebook')" color="blue">
+              Facebook Login
+            </v-btn>
+            <v-btn @click="login('Twitter')" color="purple">
+              Twitter Login
             </v-btn>
           </div>
           <div v-else>
@@ -22,8 +31,8 @@
 <script>
 export default {
   methods: {
-    login() {
-      this.$store.dispatch("Auth/login", "Google");
+    login(provider) {
+      this.$store.dispatch("Auth/login", provider);
     },
     logout() {
       this.$store.dispatch("Auth/logout");
