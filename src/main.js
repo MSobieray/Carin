@@ -3,28 +3,11 @@
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import Vue from "vue";
-import Vuetify from "vuetify";
-import colors from "vuetify/es5/util/colors";
 import App from "./App";
 import { auth } from "./firebase/config";
 import "./plugins/vuetify";
 import router from "./router";
 import store from "./store";
-
-Vue.use(Vuetify, {
-  theme: {
-    primary: colors.blueGrey.lighten1,
-    secondary: colors.blueGrey.lighten5,
-    accent: colors.lightGreen.base,
-    error: colors.red.darken4,
-    disabled: colors.grey.darken2,
-    alert: colors.red.accent1
-  },
-  options: {
-    customProperties: true
-  },
-  iconfont: "md"
-});
 
 Vue.config.productionTip = false;
 
