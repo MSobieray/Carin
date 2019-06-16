@@ -4,14 +4,18 @@
       <v-layout row wrap>
         <v-flex lg12 text-lg-center>
           <div v-if="!isLoggedIn && !loading">
-            <v-btn @click="login('Google')" color="green">Google Login</v-btn>
-            <v-btn @click="login('Github')" color="orange">Github Login</v-btn>
-            <v-btn @click="login('Facebook')" color="blue"
-              >Facebook Login</v-btn
-            >
-            <v-btn @click="login('Twitter')" color="purple"
-              >Twitter Login</v-btn
-            >
+            <v-btn @click="login('Google')" color="green">
+              Google Login
+            </v-btn>
+            <v-btn @click="login('Github')" color="orange">
+              Github Login
+            </v-btn>
+            <v-btn @click="login('Facebook')" color="blue">
+              Facebook Login
+            </v-btn>
+            <v-btn @click="login('Twitter')" color="purple">
+              Twitter Login
+            </v-btn>
           </div>
           <div v-else-if="!isLoggedIn && loading">
             <loader />

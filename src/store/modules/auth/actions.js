@@ -19,9 +19,8 @@ const logout = ({ commit, dispatch }) => {
       commit("LOGOUT");
       dispatch("clearState", null, { root: true });
     })
-    .catch(error => {
-      // TODO: ADD error to notification component
-      console.log(error);
+    .catch(err => {
+      dispatch("Notifications/add", { type: "error", ...err }, { root: true });
     });
 };
 
@@ -39,15 +38,16 @@ const login = async ({ dispatch }, provider) => {
     await auth.signInWithPopup(authProvider);
     dispatch("loading", false, { root: true });
   } catch (err) {
-    // Handle Errors here.
-    var errorCode = err.code;
-    var errorMessage = err.message;
-    // The email of the user's account used.
-    var email = err.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = err.credential;
-    console.log(errorCode, errorMessage, email, credential);
-    dispatch("Notifications/add", err, { root: true });
+    // // Handle Errors here.
+    // var errorCode = err.code;
+    // var errorMessage = err.message;
+    // // The email of the user's account used.
+    // var email = err.email;
+    // // The firebase.auth.AuthCredential type that was used.
+    // var credential = err.credential;
+    // console.log(errorCode, errorMessage, email, credential);
+    dispatch("Notifications/add", { type: "error", ...err }, { root: true });
+    dispatch("loading", false, { root: true });
   }
   router.push("/");
 };

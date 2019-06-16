@@ -10,7 +10,6 @@ const createProject = ({ rootState }, project) => {
 };
 
 const getProjects = ({ commit, dispatch }, currentTeam) => {
-  dispatch("loading", true, { root: true });
   const projectRef = firestore
     .collection("Teams")
     .doc(currentTeam)

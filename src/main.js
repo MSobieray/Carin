@@ -22,6 +22,9 @@ auth.onAuthStateChanged(user => {
       if (user) {
         try {
           await this.$store.commit("Auth/LOGIN", user);
+          this.$store.dispatch("loading", true);
+          // "getCurrentTeam" also dispatches "getProjects" which dispatches "loading"
+          // and sets it to false when the snapshot is connected
           this.$store.dispatch("Teams/getCurrentTeam");
           this.$store.dispatch("Teams/getTeams");
         } catch (err) {

@@ -9,10 +9,12 @@ const getCurrentTeam = ({ commit, dispatch, rootState }) => {
       commit("SET_CURRENT_TEAM", userData.CurrentTeam);
       dispatch("Projects/getProjects", userData.CurrentTeam, { root: true });
     })
-    .catch(error => {
-      console.log("Error getting documents: ", error);
+    .catch(err => {
+      console.log("Error getting documents: ", err);
+      dispatch("Notifications/add", err, { root: true });
     });
 };
+
 const setActiveTeam = ({ commit, dispatch, rootState }, teamName) => {
   commit("SET_CURRENT_TEAM", teamName);
   const userRef = firestore.collection("Users").doc(rootState.Auth.user.uid);
@@ -25,16 +27,18 @@ const setActiveTeam = ({ commit, dispatch, rootState }, teamName) => {
   dispatch("Projects/getProjects", teamName, { root: true });
 };
 
-const createTeam = ({ commit, rootState }, team) => {
-  // create a new team
-  // USE A FIRESTORE TRANSACTION TO READ AND WRITE
+/**
+ * Use a Firestore transaction to create a new team
+ * @param {*} param0
+ * @param {Object} team the team info
+ */
+const createTeam = ({ commit, dispatch, rootState }, team) => {
   let teamDocRef = firestore.doc(`Teams/${team.name}`);
 
   firestore
     .runTransaction(transaction => {
       return transaction.get(teamDocRef).then(teamDoc => {
         if (!teamDoc.exists) {
-          // create new team
           transaction.set(teamDocRef, {
             teamName: team.name,
             created_on: new Date(),
@@ -52,18 +56,20 @@ const createTeam = ({ commit, rootState }, team) => {
           });
           commit("SET_CURRENT_TEAM", team.name);
         } else {
-          // Set Mutation to Throw an error to the user
-          // reject the promise
-          // Log the error
-          throw "TEAM NAME IS TAKEN";
+          // stop the transaction and throw an error to the catch.
+          throw "Sorry, but it seems a team with that name has already been created";
         }
       });
     })
     .catch(err => {
-      console.log(err);
+      dispatch(
+        "Notifications/add",
+        { type: "error", message: err },
+        { root: true }
+      );
     });
 };
-const getTeams = ({ commit, rootState }) => {
+const getTeams = ({ commit, dispatch, rootState }) => {
   firestore
     .collection("Teams")
     .where(`teamMembers.${rootState.Auth.user.uid}.status`, "==", "active")
@@ -80,8 +86,9 @@ const getTeams = ({ commit, rootState }) => {
         console.log("This user does not belong to any Teams");
       }
     })
-    .catch(error => {
-      console.log("Error getting documents: ", error);
+    .catch(err => {
+      console.log("Error getting documents: ", err);
+      dispatch("Notifications/add", { type: "error", ...err }, { root: true });
     });
 };
 export default {
