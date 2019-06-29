@@ -21,13 +21,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  data() {
-    return {};
-  },
-  methods: {},
-  computed: {}
+  }
 };
 </script>
-
-<style lang="stylus"></style>

@@ -14,16 +14,10 @@ export default {
       required: true
     }
   },
-  data() {
-    return {};
-  },
   methods: {
     toggleDrawer() {
       this.$emit("toggleDrawer", !this.drawer);
     }
-  },
-  computed: {}
+  }
 };
 </script>
-
-<style lang="stylus"></style>

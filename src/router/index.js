@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "@/components/Home";
+import Dashboard from "@/components/Dashboard";
 import Settings from "@/components/Settings";
 import Auth from "@/components/Auth";
 import Team from "@/components/Team";
@@ -15,8 +15,8 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home,
+      name: "dashboard",
+      component: Dashboard,
       meta: {
         requiresAuth: true
       }

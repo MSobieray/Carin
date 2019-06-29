@@ -71,16 +71,10 @@ export default {
       required: true
     }
   },
-  data() {
-    return {};
-  },
   methods: {
     logout() {
       this.$store.dispatch("Auth/logout");
     }
-  },
-  computed: {}
+  }
 };
 </script>
-
-<style lang="stylus"></style>

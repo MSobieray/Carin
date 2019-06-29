@@ -2,8 +2,8 @@
   <section>
     <v-layout column>
       <v-flex xs12 sm6>
-        <v-card>
-          <v-container fluid grid-list-md>
+        <v-container fluid grid-list-md>
+          <v-radio-group v-model="currentTeam">
             <v-layout row wrap>
               <v-flex
                 v-for="team in teams"
@@ -28,50 +28,48 @@
                     <v-spacer></v-spacer>
 
                     <!-- <v-btn icon>
-                      <v-icon>notifications</v-icon>
-                    </v-btn>
-                    <v-btn icon>
-                      <v-icon>favorite_border</v-icon>
-                    </v-btn>
-                    <v-btn icon>
-                      <v-icon>more_vert</v-icon>
-                    </v-btn>-->
-                    <v-switch
-                      v-model="Activeteam"
-                      @click="setTeam(`${team.teamName}`)"
+                        <v-icon>notifications</v-icon>
+                      </v-btn>
+                      <v-btn icon>
+                        <v-icon>favorite_border</v-icon>
+                      </v-btn>
+                      <v-btn icon>
+                        <v-icon>more_vert</v-icon>
+                      </v-btn>-->
+                    <v-radio
                       :value="`${team.teamName}`"
-                    ></v-switch>
+                      :label="
+                        currentTeam === team.teamName
+                          ? 'Current Team'
+                          : 'Activate Team'
+                      "
+                    ></v-radio>
                   </v-card-actions>
                 </v-card>
               </v-flex>
             </v-layout>
-          </v-container>
-        </v-card>
+          </v-radio-group>
+        </v-container>
       </v-flex>
     </v-layout>
   </section>
 </template>
 <script>
 export default {
-  data() {
-    return {
-      Activeteam: ""
-      // activeRules: [
-      //   // TODO: remove all error when a valid selection is made
-      //   // v => {
-      //   //   console.log(v)
-      //   //   if (v === null) {
-      //   //     return "You Must Select a Team"
-      //   //   } else {
-      //   //     this.Activeteam = v
-      //   //     return true
-      //   //   }
-      //   // }
-      // ]
-    };
-  },
-  created() {},
+  name: "SwitchTeam",
   computed: {
+    currentTeam: {
+      get() {
+        return this.$store.state.Teams.currentTeam;
+      },
+      set(team) {
+        if (!team) {
+          alert("you must select a team");
+        } else {
+          this.$store.dispatch("Teams/setCurrentTeam", team);
+        }
+      }
+    },
     teams() {
       // this.Activeteam = this.$store.getters["Teams/currentTeam"];
       return this.$store.getters["Teams/teams"];
@@ -83,12 +81,16 @@ export default {
       if (!teamName) {
         alert("you must select a team");
       } else {
-        this.Activeteam = teamName;
-        this.$store.dispatch("Teams/setActiveTeam", teamName);
+        this.activeTeam = teamName;
+        this.$store.dispatch("Teams/setCurrentTeam", teamName);
       }
       // TODO: Set the team in the store and database
     }
   }
 };
 </script>
-<style scoped></style>
+<style scoped lang="stylus">
+.v-input {
+  display: block;
+}
+</style>

@@ -2,76 +2,74 @@
   <div class="home">
     <v-layout column v-if="projects.length !== 0">
       <v-flex xs12 sm6>
-        <v-card>
-          <v-container fluid grid-list-md>
-            <v-layout row wrap>
-              <v-flex
-                v-for="project in projects"
-                v-bind="{
-                  [`lg${project[0].flex}`]: true,
-                  sm6: true,
-                  xs12: true
-                }"
-                :key="project.title"
-              >
-                <v-card>
-                  <v-responsive
-                    v-if="project[0].img_src"
-                    :src="project[0].img_src"
-                    height="300px"
-                    to="/settings"
+        <v-container fluid grid-list-md>
+          <v-layout row wrap>
+            <v-flex
+              v-for="project in projects"
+              v-bind="{
+                [`lg${project[0].flex}`]: true,
+                sm6: true,
+                xs12: true
+              }"
+              :key="project.title"
+            >
+              <v-card>
+                <v-responsive
+                  v-if="project[0].img_src"
+                  :src="project[0].img_src"
+                  height="300px"
+                  to="/settings"
+                >
+                  <v-container fill-height fluid>
+                    <v-layout fill-height>
+                      <v-flex xs12 align-end flexbox>
+                        <span
+                          class="headline white--text"
+                          v-text="project[0].title"
+                        />
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-responsive>
+                <v-responsive v-else height="300px" class="disabled">
+                  <v-container fill-height fluid>
+                    <v-layout fill-height>
+                      <v-flex xs12 align-end flexbox>
+                        <span
+                          class="headline white--text"
+                          v-text="project[0].title"
+                        />
+                      </v-flex>
+                      <v-btn icon>
+                        <v-icon>photo_camera</v-icon>
+                      </v-btn>
+                    </v-layout>
+                  </v-container>
+                </v-responsive>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn icon>
+                    <v-icon medium>notification_important</v-icon>
+                  </v-btn>
+                  <v-btn icon>
+                    <v-icon>favorite_border</v-icon>
+                  </v-btn>
+                  <v-btn icon>
+                    <v-icon>more_vert</v-icon>
+                  </v-btn>
+                  <v-btn
+                    :to="`/team/${slug(currentTeam)}/project/${project[1]}`"
+                    color="accent"
+                    flat
                   >
-                    <v-container fill-height fluid>
-                      <v-layout fill-height>
-                        <v-flex xs12 align-end flexbox>
-                          <span
-                            class="headline white--text"
-                            v-text="project[0].title"
-                          />
-                        </v-flex>
-                      </v-layout>
-                    </v-container>
-                  </v-responsive>
-                  <v-responsive v-else height="300px" class="disabled">
-                    <v-container fill-height fluid>
-                      <v-layout fill-height>
-                        <v-flex xs12 align-end flexbox>
-                          <span
-                            class="headline white--text"
-                            v-text="project[0].title"
-                          />
-                        </v-flex>
-                        <v-btn icon>
-                          <v-icon>photo_camera</v-icon>
-                        </v-btn>
-                      </v-layout>
-                    </v-container>
-                  </v-responsive>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn icon>
-                      <v-icon medium>notification_important</v-icon>
-                    </v-btn>
-                    <v-btn icon>
-                      <v-icon>favorite_border</v-icon>
-                    </v-btn>
-                    <v-btn icon>
-                      <v-icon>more_vert</v-icon>
-                    </v-btn>
-                    <v-btn
-                      :to="`/team/${slug(currentTeam)}/project/${project[1]}`"
-                      color="accent"
-                      flat
-                    >
-                      Open
-                      <v-icon>navigate_next</v-icon>
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card>
+                    Open
+                    <v-icon>navigate_next</v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-flex>
     </v-layout>
     <v-layout d-flex v-else-if="loading">
@@ -140,7 +138,7 @@
 import { mapState } from "vuex";
 import loader from "./global/loader";
 export default {
-  name: "home",
+  name: "Dashboard",
   components: {
     loader
   },

@@ -15,7 +15,7 @@ const getCurrentTeam = ({ commit, dispatch, rootState }) => {
     });
 };
 
-const setActiveTeam = ({ commit, dispatch, rootState }, teamName) => {
+const setCurrentTeam = ({ commit, dispatch, rootState }, teamName) => {
   commit("SET_CURRENT_TEAM", teamName);
   const userRef = firestore.collection("Users").doc(rootState.Auth.user.uid);
   userRef.set(
@@ -93,7 +93,7 @@ const getTeams = ({ commit, dispatch, rootState }) => {
 };
 export default {
   getCurrentTeam,
-  setActiveTeam,
+  setCurrentTeam,
   createTeam,
   getTeams
 };
