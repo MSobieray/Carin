@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import Loader from "../global/loader.vue";
+import loader from "../global/Loader.vue";
 import ProjectStepper from "./Project__stepper.vue";
 export default {
   components: {
-    loader: Loader,
+    loader,
     "project-steppper": ProjectStepper
   },
   data() {

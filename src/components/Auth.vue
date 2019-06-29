@@ -31,7 +31,7 @@
 
 <script>
 import { mapState } from "vuex";
-import loader from "./global/loader";
+import loader from "./global/Loader";
 export default {
   components: {
     loader
