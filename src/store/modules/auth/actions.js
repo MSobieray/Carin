@@ -1,9 +1,25 @@
 import { auth } from "@/firebase/config.js";
 import { firestore } from "@/firebase/config.js";
 import firebase from "firebase";
-import router from "@/router/";
-const createUser = user => {
-  firestore.collection("users").add(user);
+// import router from "@/router/";
+
+const createUser = ({ dispatch }, user) => {
+  firestore
+    .doc(`Users/${user.uid}`)
+    .set(
+      {
+        Name: user.displayName,
+        Email: user.email
+      },
+      { merge: true }
+    )
+    .then(() => {
+      // "getCurrentTeam" also dispatch() => {e s "getProjects" which dispatches "loading"
+      // and sets it to false when the snapshot is connected
+      dispatch("Teams/getTeams", "", { root: true }).then(() => {
+        dispatch("Teams/getCurrentTeam", "", { root: true });
+      });
+    });
 };
 /**
  * Logout the user and clear the state
@@ -36,7 +52,6 @@ const login = async ({ dispatch }, provider) => {
   const authProvider = new firebase.auth[`${provider}AuthProvider`]();
   try {
     await auth.signInWithPopup(authProvider);
-    dispatch("loading", false, { root: true });
   } catch (err) {
     // // Handle Errors here.
     // var errorCode = err.code;
@@ -49,7 +64,6 @@ const login = async ({ dispatch }, provider) => {
     dispatch("Notifications/add", { type: "error", ...err }, { root: true });
     dispatch("loading", false, { root: true });
   }
-  router.push("/");
 };
 
 export default {

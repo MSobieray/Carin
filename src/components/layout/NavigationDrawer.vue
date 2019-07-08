@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer clipped fixed v-model="drawer" app>
+  <v-navigation-drawer clipped fixed v-model="drawerProp" app>
     <v-list dense v-if="user">
       <v-list-tile>
         <v-list-tile-action>
@@ -64,11 +64,21 @@ export default {
   props: {
     user: {
       type: Object,
-      required: true
+      default: () => ({})
     },
     drawer: {
       type: Boolean,
       required: true
+    }
+  },
+  computed: {
+    drawerProp: {
+      get() {
+        return this.drawer;
+      },
+      set(val) {
+        this.$emit("toggleDrawer", val);
+      }
     }
   },
   methods: {

@@ -1,6 +1,10 @@
 <template>
   <v-app dark>
-    <NavigationDrawer :user="user" :drawer="drawer" />
+    <NavigationDrawer
+      :user="user"
+      :drawer="drawer"
+      @toggleDrawer="payload => (this.drawer = payload)"
+    />
     <ToolBar
       :drawer="drawer"
       @toggleDrawer="payload => (this.drawer = payload)"

@@ -4,14 +4,13 @@
       v-for="notification in notifications"
       :key="notification.id"
       :timeout="timeout"
-      :color="notification.type"
       :auto-height="true"
       :multi-line="true"
-      :top="true"
+      :bottom="true"
       v-model="notification.message"
     >
       {{ notification.message }}
-      <v-btn color="white" flat @click="remove(notification.id)">
+      <v-btn :color="notification.type" flat @click="remove(notification.id)">
         Close
       </v-btn>
     </v-snackbar>

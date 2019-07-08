@@ -40,7 +40,10 @@ const router = new Router({
     {
       path: "/team/:teamName/project/:projectID",
       component: Project,
-      name: "Project",
+      name: "project-id",
+      meta: {
+        requiresAuth: true
+      },
       children: [
         {
           path: "overview",
@@ -51,7 +54,11 @@ const router = new Router({
     },
     {
       path: "/team/switch",
-      component: SwitchTeams
+      name: "switch-teams",
+      component: SwitchTeams,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/login",
@@ -78,8 +85,6 @@ router.beforeEach((to, from, next) => {
 
   if (requiresAuth && !currentUser) {
     next("/login");
-  } else if (requiresAuth && currentUser) {
-    next();
   } else {
     next();
   }

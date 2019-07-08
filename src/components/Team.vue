@@ -59,12 +59,14 @@ export default {
     };
   },
   methods: {
-    createTeam() {
-      this.$store.dispatch("Teams/createTeam", { name: this.team });
+    async createTeam() {
+      await this.$store.dispatch("Teams/createTeam", { name: this.team });
+      this.$store.dispatch("Teams/getTeams");
     },
     addMember() {
+      // TODO: Setup Email To Invite team members
       console.log("Getting Teams");
-      this.$store.dispatch("Teams/getTeams");
+      // this.$store.dispatch("Teams/getTeams");
     }
   },
   computed: {

@@ -74,18 +74,6 @@ export default {
       // this.Activeteam = this.$store.getters["Teams/currentTeam"];
       return this.$store.getters["Teams/teams"];
     }
-  },
-  methods: {
-    setTeam(teamName) {
-      // show the active team
-      if (!teamName) {
-        alert("you must select a team");
-      } else {
-        this.activeTeam = teamName;
-        this.$store.dispatch("Teams/setCurrentTeam", teamName);
-      }
-      // TODO: Set the team in the store and database
-    }
   }
 };
 </script>
