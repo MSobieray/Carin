@@ -18,8 +18,7 @@
 export default {
   props: {
     user: {
-      type: Object,
-      default: () => ({})
+      type: [Object, Boolean]
     }
   }
 };

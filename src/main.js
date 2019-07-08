@@ -20,7 +20,6 @@ auth.onAuthStateChanged(user => {
     render: h => h(App),
     async beforeCreate() {
       if (user) {
-        console.log(user);
         try {
           await this.$store.commit("Auth/LOGIN", user);
           this.$store.dispatch("loading", true);

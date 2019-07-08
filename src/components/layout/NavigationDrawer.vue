@@ -63,8 +63,7 @@ export default {
   name: "NavigationDrawer",
   props: {
     user: {
-      type: Object,
-      default: () => ({})
+      type: [Object, Boolean]
     },
     drawer: {
       type: Boolean,

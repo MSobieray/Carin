@@ -1,4 +1,5 @@
 import { firestore } from "@/firebase/config.js";
+import router from "../../../router";
 
 const getCurrentTeam = ({ commit, dispatch, rootState }) => {
   const userRef = firestore.collection("Users").doc(rootState.Auth.user.uid);
@@ -6,17 +7,31 @@ const getCurrentTeam = ({ commit, dispatch, rootState }) => {
     .get()
     .then(user => {
       let userData = user.data();
+      // check current team and handle route change to force team creation or activation
+      if (!userData) {
+        throw "There is an issue with your team setup";
+      } else if (!userData.CurrentTeam && rootState.Teams.teams.length === 0) {
+        router.push({ name: "team" });
+        throw "You do not have an active team, please create one";
+      } else if (!userData.CurrentTeam && rootState.Teams.teams.length > 0) {
+        router.push({ name: "switch-teams" });
+        throw "You do not have an active team, please select one";
+      }
+
       commit("SET_CURRENT_TEAM", userData.CurrentTeam);
       dispatch("Projects/getProjects", userData.CurrentTeam, { root: true });
     })
     .catch(err => {
       console.log("Error getting documents: ", err);
-      dispatch("Notifications/add", err, { root: true });
+      dispatch(
+        "Notifications/add",
+        { message: err, type: "error" },
+        { root: true }
+      );
     });
 };
 
 const setCurrentTeam = ({ commit, dispatch, rootState }, teamName) => {
-  commit("SET_CURRENT_TEAM", teamName);
   const userRef = firestore.collection("Users").doc(rootState.Auth.user.uid);
   userRef.set(
     {
@@ -24,6 +39,7 @@ const setCurrentTeam = ({ commit, dispatch, rootState }, teamName) => {
     },
     { merge: true }
   );
+  commit("SET_CURRENT_TEAM", teamName);
   dispatch("Projects/getProjects", teamName, { root: true });
 };
 
@@ -34,7 +50,6 @@ const setCurrentTeam = ({ commit, dispatch, rootState }, teamName) => {
  */
 const createTeam = ({ commit, dispatch, rootState }, team) => {
   let teamDocRef = firestore.doc(`Teams/${team.name}`);
-
   firestore
     .runTransaction(transaction => {
       return transaction.get(teamDocRef).then(teamDoc => {
@@ -60,6 +75,15 @@ const createTeam = ({ commit, dispatch, rootState }, team) => {
           throw "Sorry, but it seems a team with that name has already been created";
         }
       });
+    })
+    .then(() => {
+      let userDocRef = firestore.doc(`Users/${rootState.Auth.user.uid}`);
+      userDocRef.set(
+        {
+          CurrentTeam: team.name
+        },
+        { merge: true }
+      );
     })
     .catch(err => {
       dispatch(
