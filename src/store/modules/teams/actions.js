@@ -19,7 +19,11 @@ const getCurrentTeam = ({ commit, dispatch, rootState }) => {
       }
 
       commit("SET_CURRENT_TEAM", userData.CurrentTeam);
-      dispatch("Projects/getProjects", userData.CurrentTeam, { root: true });
+      dispatch(
+        "Projects/getProjects",
+        { currentTeam: userData.CurrentTeam },
+        { root: true }
+      );
     })
     .catch(err => {
       console.log("Error getting documents: ", err);
@@ -40,7 +44,7 @@ const setCurrentTeam = ({ commit, dispatch, rootState }, teamName) => {
     { merge: true }
   );
   commit("SET_CURRENT_TEAM", teamName);
-  dispatch("Projects/getProjects", teamName, { root: true });
+  dispatch("Projects/getProjects", { currentTeam: teamName }, { root: true });
 };
 
 /**

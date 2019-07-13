@@ -1,5 +1,5 @@
 <template>
-  <v-footer v-show="user" app fixed height="auto">
+  <v-footer v-if="user && currentTeam" app fixed height="auto">
     <v-layout justify-center>
       <v-btn color="secondary" dark block flat to="/">
         <v-icon>dashboard</v-icon>
@@ -15,11 +15,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     user: {
       type: [Object, Boolean]
     }
+  },
+  computed: {
+    ...mapState("Teams", ["currentTeam"])
   }
 };
 </script>

@@ -8,6 +8,11 @@ const mutations = {
   },
   LOADING: (state, payload) => {
     state.loading = payload;
+  },
+  ADD_LISTENER: (state, payload) => {
+    const listeners = state.listeners;
+    listeners.push(payload);
+    state.listeners = listeners;
   }
 };
 

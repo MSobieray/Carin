@@ -4,6 +4,9 @@ const actions = {
   },
   loading: ({ commit }, payload) => {
     commit("LOADING", payload);
+  },
+  addListener: ({ commit }, payload) => {
+    commit("ADD_LISTENER", payload);
   }
 };
 export default actions;

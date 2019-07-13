@@ -8,33 +8,44 @@ const createProject = ({ rootState }, project) => {
     .doc();
   projectDoc.set(project);
 };
-
-const getProjects = ({ commit, dispatch }, currentTeam) => {
+/**
+ * Get a realtime snapshot of the current teams projects
+ * @param {Object} vuex - object of vuex methods
+ * @param {Function} commit mutation handler
+ * @param {Function} dispatch action handler
+ * @return {Promise} firebase promise
+ */
+const getProjects = ({ commit, dispatch }, { currentTeam, unsubscribe }) => {
+  console.log("GETPROJECTS", currentTeam, unsubscribe);
   const projectRef = firestore
     .collection("Teams")
     .doc(currentTeam)
     .collection("Projects");
 
-  projectRef.onSnapshot(snapshot => {
-    let projects = [];
-    snapshot.forEach(project => {
-      projects.push([project.data(), project.id]);
+  const projectListner = projectRef
+    .orderBy("created_on", "desc")
+    .onSnapshot(snapshot => {
+      let projects = [];
+      snapshot.forEach(project => {
+        projects.push([project.data(), project.id]);
+      });
+      commit("SET_PROJECTS", projects);
+      dispatch("loading", false, { root: true });
     });
-    commit("SET_PROJECTS", projects);
-    dispatch("loading", false, { root: true });
-  });
+  dispatch("addListener", projectListner, { root: true });
 };
 
-const getProjectData = ({ commit }, proj) => {
+const getProjectData = ({ commit, dispatch }, { project, currentTeam }) => {
   const projectDoc = firestore
     .collection("Teams")
-    .doc(proj.currentTeam)
+    .doc(currentTeam)
     .collection("Projects")
-    .doc(proj.project);
+    .doc(project);
 
-  projectDoc.onSnapshot(snapshot => {
+  const projectDataListner = projectDoc.onSnapshot(snapshot => {
     commit("SET_PROJECT_DATA", snapshot.data());
   });
+  dispatch("addListener", projectDataListner, { root: true });
 };
 
 const updateProject = ({ rootState }, data) => {

@@ -158,6 +158,9 @@ export default {
   computed: {
     ...mapState("Projects", ["projects"]),
     ...mapState(["loading"]),
+    /**
+     * used to build out navigation
+     */
     currentTeam() {
       return this.$store.getters["Teams/currentTeam"];
     }

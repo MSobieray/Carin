@@ -28,7 +28,11 @@ const createUser = ({ dispatch }, user) => {
  * @param {Function} dispatch action handler
  * @return {Promise} firebase promise
  */
-const logout = ({ commit, dispatch }) => {
+const logout = async ({ commit, dispatch, rootState }) => {
+  rootState.listeners.forEach(listener => {
+    listener();
+  });
+
   auth
     .signOut()
     .then(() => {
