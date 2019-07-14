@@ -15,8 +15,7 @@ const createProject = ({ rootState }, project) => {
  * @param {Function} dispatch action handler
  * @return {Promise} firebase promise
  */
-const getProjects = ({ commit, dispatch }, { currentTeam, unsubscribe }) => {
-  console.log("GETPROJECTS", currentTeam, unsubscribe);
+const getProjects = ({ commit, dispatch }, { currentTeam }) => {
   const projectRef = firestore
     .collection("Teams")
     .doc(currentTeam)
@@ -32,7 +31,11 @@ const getProjects = ({ commit, dispatch }, { currentTeam, unsubscribe }) => {
       commit("SET_PROJECTS", projects);
       dispatch("loading", false, { root: true });
     });
-  dispatch("addListener", projectListner, { root: true });
+  dispatch(
+    "addListener",
+    { listener: projectListner, id: currentTeam },
+    { root: true }
+  );
 };
 
 const getProjectData = ({ commit, dispatch }, { project, currentTeam }) => {
@@ -45,7 +48,11 @@ const getProjectData = ({ commit, dispatch }, { project, currentTeam }) => {
   const projectDataListner = projectDoc.onSnapshot(snapshot => {
     commit("SET_PROJECT_DATA", snapshot.data());
   });
-  dispatch("addListener", projectDataListner, { root: true });
+  dispatch(
+    "addListener",
+    { listener: projectDataListner, id: currentTeam },
+    { root: true }
+  );
 };
 
 const updateProject = ({ rootState }, data) => {

@@ -29,8 +29,9 @@ const createUser = ({ dispatch }, user) => {
  * @return {Promise} firebase promise
  */
 const logout = async ({ commit, dispatch, rootState }) => {
+  // unsubscribe from any active firesotre listeners
   rootState.listeners.forEach(listener => {
-    listener();
+    listener.unsubscribe();
   });
 
   auth

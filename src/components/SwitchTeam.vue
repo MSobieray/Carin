@@ -55,6 +55,7 @@
   </section>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "SwitchTeam",
   computed: {
@@ -66,15 +67,14 @@ export default {
         if (!team) {
           alert("you must select a team");
         } else {
+          this.$store.dispatch("removeListener", this.currentTeam);
           this.$store.dispatch("Teams/setCurrentTeam", team);
         }
       }
     },
-    teams() {
-      // this.Activeteam = this.$store.getters["Teams/currentTeam"];
-      return this.$store.getters["Teams/teams"];
-    }
+    ...mapState("Teams", ["teams"])
   }
+  // TODO -- REMOVE A LISTNER WHEN SWITCHING TEAMS -- a new action? need to modify the listner array to objects with name property to match team name
 };
 </script>
 <style scoped lang="stylus">
