@@ -24,7 +24,6 @@ auth.onAuthStateChanged(user => {
           await this.$store.commit("Auth/LOGIN", user);
           this.$store.dispatch("loading", true);
           this.$store.dispatch("Auth/createUser", user);
-          router.push({ name: "dashboard" });
         } catch (err) {
           console.log(err);
         }

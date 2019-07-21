@@ -19,6 +19,8 @@ const getCurrentTeam = ({ commit, dispatch, rootState }) => {
       }
 
       commit("SET_CURRENT_TEAM", userData.CurrentTeam);
+
+      // Get the project for the team
       dispatch(
         "Projects/getProjects",
         { currentTeam: userData.CurrentTeam },
@@ -52,33 +54,40 @@ const setCurrentTeam = ({ commit, dispatch, rootState }, teamName) => {
  * @param {*} param0
  * @param {Object} team the team info
  */
-const createTeam = ({ commit, dispatch, rootState }, team) => {
+const createTeam = async ({ commit, dispatch, rootState }, team) => {
   let teamDocRef = firestore.doc(`Teams/${team.name}`);
   firestore
     .runTransaction(transaction => {
-      return transaction.get(teamDocRef).then(teamDoc => {
-        if (!teamDoc.exists) {
-          transaction.set(teamDocRef, {
-            teamName: team.name,
-            created_on: new Date(),
-            admin: {
-              name: rootState.Auth.user.displayName,
-              email: rootState.Auth.user.email
-            },
-            teamMembers: {
-              [rootState.Auth.user.uid]: {
-                role: "admin",
-                status: "active",
-                joined: new Date()
+      return transaction
+        .get(teamDocRef)
+        .then(teamDoc => {
+          if (!teamDoc.exists) {
+            transaction.set(teamDocRef, {
+              teamName: team.name,
+              created_on: new Date(),
+              admin: {
+                name: rootState.Auth.user.displayName,
+                email: rootState.Auth.user.email
+              },
+              teamMembers: {
+                [rootState.Auth.user.uid]: {
+                  role: "admin",
+                  status: "active",
+                  joined: new Date()
+                }
               }
-            }
-          });
-          commit("SET_CURRENT_TEAM", team.name);
-        } else {
-          // stop the transaction and throw an error to the catch.
-          throw "Sorry, but it seems a team with that name has already been created";
-        }
-      });
+            });
+            commit("SET_CURRENT_TEAM", team.name);
+          } else {
+            // stop the transaction and throw an error to the catch.
+            throw "Sorry, but it seems a team with that name has already been created";
+          }
+        })
+        .then(() => {
+          debugger;
+          dispatch("getTeams");
+          router.push({ name: "switch-teams" });
+        });
     })
     .then(() => {
       let userDocRef = firestore.doc(`Users/${rootState.Auth.user.uid}`);

@@ -1,4 +1,5 @@
 <template>
+  <!-- REPLACING Draggable with native Drag and Drop API -->
   <!-- <draggable
     :list="data.pages"
     :options="{ group: 'pages', animation: '500' }"
