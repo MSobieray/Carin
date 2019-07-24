@@ -14,6 +14,7 @@
       <sitemap-column
         v-for="page in pages"
         :key="page.id"
+        :columnId="page.id"
         :data="page"
         :className="'page parent-page'"
       />

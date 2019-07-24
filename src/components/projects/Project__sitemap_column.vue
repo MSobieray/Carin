@@ -12,21 +12,23 @@
     <div
       v-for="(page, i) in data.pages"
       :key="`${page.id}-${i}`"
-      draggable="true"
-      @dragstart="move(index, $event)"
-      @dragend="move(index, $event)"
+      draggable
+      @dragstart="dragStart($event, page.id)"
+      @drop="drop($event, page.id, columnId)"
+      @dragover.prevent="dragOver($event, page.id)"
+      @dragleave="dragLeave($event)"
+      :class="className"
     >
       <v-chip color="secondary" :label="true" text-color="primary">
         {{ page.name }}
       </v-chip>
-      <sitemap-column :data="page"></sitemap-column>
+      <sitemap-column :data="page" :columnId="columnId"></sitemap-column>
     </div>
   </div>
   <!-- </draggable> -->
 </template>
 
 <script>
-// import draggable from "vuedraggable";
 export default {
   name: "SitemapColumn",
   props: {
@@ -38,24 +40,38 @@ export default {
       type: String,
       required: false,
       default: "page child-page"
+    },
+    columnId: {
+      type: Number
     }
   },
-  // components: {
-  //   draggable
-  // },
   data: () => ({
     onMove: false
   }),
   methods: {
-    // Emit move event so all components can show a dropzone area.
-
-    move(i, event) {
-      // console.log({ this: this, item: evt.item, from: evt.from, to: evt.to })
-      console.log(i, event);
-      this.onMove = true;
+    dragStart(event, pageId) {
+      event.stopPropagation();
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.dropEffect = "move";
+      event.dataTransfer.setData("page-id", pageId);
     },
-    endDrag() {
-      this.onMove = false;
+    dragOver(event) {
+      event.stopPropagation();
+      event.currentTarget.classList.add("drop");
+    },
+    dragLeave(event) {
+      event.stopPropagation();
+      event.currentTarget.classList.remove("drop");
+    },
+    drop(event, toPageId, toColumnId) {
+      event.stopPropagation();
+      event.currentTarget.classList.remove("drop");
+      const fromPageId = parseInt(event.dataTransfer.getData("page-id"));
+      this.$store.commit("Projects/UPDATE_SITEMAP", {
+        fromPageId,
+        toPageId,
+        toColumnId
+      });
     }
   }
 };
@@ -66,7 +82,7 @@ export default {
   min-height: 20px;
 
   &.parent-page {
-    width: 33%;
+    // width: 33%;
     height: 100vh;
     border-right: 1px solid var(--v-secondary-base);
   }
@@ -82,8 +98,9 @@ export default {
   .drop {
     border: solid 1px var(--v-accent-base);
 
-    .child-page {
-      height: 20vh;
+    span {
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
 
     &.move {
