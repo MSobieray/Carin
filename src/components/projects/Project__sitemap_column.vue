@@ -6,7 +6,7 @@
       draggable
       @dragstart="dragStart($event, page.id)"
       @drop="drop($event, page.id, columnId)"
-      @dragover.prevent="dragOver($event, page.id)"
+      @dragover.prevent="dragOver($event)"
       @dragleave="dragLeave($event)"
       :class="className"
     >
