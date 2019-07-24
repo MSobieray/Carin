@@ -1,13 +1,4 @@
 <template>
-  <!-- REPLACING Draggable with native Drag and Drop API -->
-  <!-- <draggable
-    :list="data.pages"
-    :options="{ group: 'pages', animation: '500' }"
-    @start="move"
-    @end="endDrag"
-    element="div"
-    :class="className"
-  > -->
   <div>
     <div
       v-for="(page, i) in data.pages"
@@ -25,7 +16,6 @@
       <sitemap-column :data="page" :columnId="columnId"></sitemap-column>
     </div>
   </div>
-  <!-- </draggable> -->
 </template>
 
 <script>
