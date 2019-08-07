@@ -3,7 +3,12 @@ import mutations from "./mutations";
 import getters from "./getters";
 
 const state = {
-  user: null
+  user: {
+    displayName: "",
+    email: "",
+    uid: "",
+    photphotoURL: ""
+  }
 };
 
 export default {
