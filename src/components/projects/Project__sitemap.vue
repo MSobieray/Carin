@@ -13,10 +13,9 @@
       </v-btn>
       <sitemap-column
         v-for="page in pages"
-        :key="page.id"
-        :columnId="page.id"
+        :key="page.column"
+        :columnId="page.column"
         :data="page"
-        :className="'page parent-page'"
       />
     </v-layout>
   </v-container>

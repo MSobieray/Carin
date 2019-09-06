@@ -1,3 +1,5 @@
+import { addPage } from "../../../util";
+
 const SET_PROJECTS = (state, payload) => {
   state.projects = payload;
 };
@@ -8,17 +10,10 @@ const SET_PROJECT_DATA = (state, payload) => {
 const SHOW_STEPPER = (state, payload) => {
   state.projectData.showStepper = payload;
 };
-const UPDATE_SITEMAP = (state, { fromPageId, toPageId, toColumnId }) => {
-  console.log(
-    state.projectData.pages,
-    "from:",
-    fromPageId,
-    "to:",
-    toPageId,
-    "toCol:",
-    toColumnId
-  );
-  // const pages = state.projectData.pages;
+const UPDATE_SITEMAP = (state, { movedPage, toPageId, toPageIndex }) => {
+  const pagesArray = state.projectData.pages;
+  // TODO: find away to pass the correcrt toPageIndex of where the item should get placed
+  addPage(pagesArray, toPageId, toPageIndex, movedPage);
 };
 
 export default {
