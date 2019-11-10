@@ -38,16 +38,16 @@
 //   return page;
 // }
 
-export function addPage(pages, toValue, toIndex, newPage) {
+export function addPage(pages, toPageId, toIndex, newPage) {
   let next = [];
   for (let i = 0; i < pages.length; i++) {
     if (pages[i]) {
       const findObj = pages[i].pages.find(dropTo => {
-        if (dropTo.id === toValue) {
+        if (dropTo.id === toPageId) {
           return dropTo;
         }
       });
-      if (findObj) {
+      if (findObj && toPageId !== newPage.id) {
         findObj.pages.splice(toIndex, 0, newPage);
         break;
       } else {
@@ -62,28 +62,29 @@ export function addPage(pages, toValue, toIndex, newPage) {
     }
   }
   if (next.length) {
-    addPage(next, toValue, toIndex, newPage);
+    addPage(next, toPageId, toIndex, newPage);
   }
   return null;
 }
-// BUG: when picking up a page and dropping it to itself the page gets deleted
 
-export function removePage(allPages, removedPage) {
+export function removePage(allPages, removedPage, toPageId) {
   let page;
   let next = [];
   for (let i = 0; i < allPages.length; i++) {
     if (allPages[i]) {
       page = allPages[i].pages.find(page => {
         return page.id === removedPage.id;
-        // allPages[i].pages.splice(index, 1);
       });
     }
     if (page) {
       const pageIndex = allPages[i].pages.findIndex(page => {
         return page.id === removedPage.id;
       });
-      console.log(allPages[i].pages.splice(pageIndex, 1));
-      console.log(allPages[i].pages);
+      if (page.id !== toPageId) {
+        allPages[i].pages.splice(pageIndex, 1);
+      } else {
+        break;
+      }
       break;
     } else {
       allPages[i].pages.forEach(page => {
@@ -97,6 +98,6 @@ export function removePage(allPages, removedPage) {
   }
 
   if (next.length) {
-    removePage(next, removedPage);
+    removePage(next, removedPage, toPageId);
   }
 }
