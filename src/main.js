@@ -21,7 +21,7 @@ auth.onAuthStateChanged(user => {
     async beforeCreate() {
       if (user) {
         try {
-          await this.$store.commit("Auth/LOGIN", user);
+          this.$store.commit("Auth/LOGIN", user);
           this.$store.dispatch("loading", true);
           this.$store.dispatch("Auth/createUser", user);
         } catch (err) {

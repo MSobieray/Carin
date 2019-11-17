@@ -32,11 +32,6 @@ export default {
   data() {
     return {};
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.$store.commit("Projects/SET_PROJECT_DATA", null);
-    });
-  },
   created() {
     if (this.currentTeam) {
       this.getData(this.currentTeam);
@@ -52,8 +47,9 @@ export default {
       let data = this.$store.getters["Projects/projectData"];
       // if (data && data.showStepper === false) {
       //   this.$router.push({ name: "ProjectOverview" });
-      // }
+      // } else {
       return data;
+      // }
     }
   },
   watch: {

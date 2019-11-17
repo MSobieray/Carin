@@ -18,7 +18,8 @@ const store = new Vuex.Store({
     Projects,
     Teams,
     Notifications
-  }
+  },
+  strict: true
 });
 
 export default store;

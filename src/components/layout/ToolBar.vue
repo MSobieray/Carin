@@ -4,7 +4,7 @@
       @click.stop="toggleDrawer"
       v-if="currentTeam"
     ></v-toolbar-side-icon>
-    <v-toolbar-title>Carin Website Managment</v-toolbar-title>
+    <v-toolbar-title>Cairn Website Management</v-toolbar-title>
   </v-toolbar>
 </template>
 
