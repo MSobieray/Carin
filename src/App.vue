@@ -2,13 +2,10 @@
   <v-app dark>
     <NavigationDrawer
       :user="user"
-      :drawer="drawer"
-      @toggleDrawer="payload => (this.drawer = payload)"
+      :drawer="visible"
+      @toggleDrawer="toggleSidebar"
     />
-    <ToolBar
-      :drawer="drawer"
-      @toggleDrawer="payload => (this.drawer = payload)"
-    />
+    <ToolBar :drawer="visible" @toggleDrawer="toggleSidebar" />
     <!-- START Main Content -->
     <v-content>
       <router-view />
@@ -36,7 +33,15 @@ export default {
   data: () => ({
     drawer: false
   }),
-  computed: mapState("Auth", ["user"])
+  computed: {
+    ...mapState("Auth", ["user"]),
+    ...mapState("Sidebar", ["visible"])
+  },
+  methods: {
+    toggleSidebar() {
+      this.$store.commit("Sidebar/TOGGLE");
+    }
+  }
 };
 </script>
 
