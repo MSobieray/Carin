@@ -10,7 +10,12 @@
       @dragleave="dragLeave($event)"
       :class="className"
     >
-      <v-chip color="secondary" :label="true" text-color="primary">
+      <v-chip
+        @click="updateSidebar"
+        color="secondary"
+        :label="true"
+        text-color="primary"
+      >
         {{ page.name }}
       </v-chip>
       <sitemap-page :data="page" :columnId="columnId"></sitemap-page>
@@ -72,6 +77,10 @@ export default {
         toPageId,
         toPageIndex
       });
+    },
+    updateSidebar() {
+      this.$store.commit("Sidebar/TOGGLE", true);
+      this.$store.commit("Sidebar/UPDATE", "page");
     }
   }
 };
