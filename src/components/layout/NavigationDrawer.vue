@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer clipped fixed v-model="drawerProp" app>
-    <v-list dense v-if="user">
+    <v-list dense v-if="user && type === 'default'">
       <v-list-tile>
         <v-list-tile-action>
           <v-avatar size="32">
@@ -45,7 +45,7 @@
       </v-list-tile>
     </v-list>
     <!-- In not logged in just display Login  -->
-    <v-list dense v-else>
+    <v-list dense v-else-if="!user">
       <v-list-tile to="/login">
         <v-list-tile-action>
           <v-icon>person_outline</v-icon>
@@ -55,10 +55,15 @@
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
+    <v-list v-else>
+      <v-list-tile-title>PAGE NAME</v-list-tile-title>
+    </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "NavigationDrawer",
   props: {
@@ -71,12 +76,15 @@ export default {
     }
   },
   computed: {
+    ...mapState("Sidebar", ["type"]),
     drawerProp: {
       get() {
         return this.drawer;
       },
       set(val) {
-        this.$emit("toggleDrawer", val);
+        if (val !== this.drawer) {
+          this.$emit("toggleDrawer", val);
+        }
       }
     }
   },

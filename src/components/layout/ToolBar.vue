@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     toggleDrawer() {
-      this.$emit("toggleDrawer", !this.drawer);
+      this.$emit("toggleDrawer");
     }
   },
   computed: {
