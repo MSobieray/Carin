@@ -11,7 +11,7 @@
       :class="className"
     >
       <v-chip
-        @click="updateSidebar"
+        @click="updateSidebar(page)"
         color="secondary"
         :label="true"
         text-color="primary"
@@ -78,9 +78,12 @@ export default {
         toPageIndex
       });
     },
-    updateSidebar() {
+    updateSidebar(page) {
       this.$store.commit("Sidebar/TOGGLE", true);
-      this.$store.commit("Sidebar/UPDATE", "page");
+      this.$store.commit(
+        "Sidebar/UPDATE",
+        Object.assign(page, { type: "page" })
+      );
     }
   }
 };
