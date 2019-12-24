@@ -3,7 +3,10 @@ const TOGGLE = (state, payload = !state.visible) => {
 };
 
 const UPDATE = (state, payload) => {
-  state.type = payload;
+  console.log(payload);
+  state.type = payload.type;
+  // Temporary State Update
+  state.page = payload;
 };
 
 export default {
