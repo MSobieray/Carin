@@ -24,6 +24,7 @@ auth.onAuthStateChanged(user => {
           this.$store.commit("Auth/LOGIN", user);
           this.$store.dispatch("loading", true);
           this.$store.dispatch("Auth/createUser", user);
+          this.$store.dispatch("Sidebar/set", { type: "main" }, { root: true });
         } catch (err) {
           console.log(err);
         }
