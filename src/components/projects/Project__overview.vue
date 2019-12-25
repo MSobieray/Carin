@@ -67,7 +67,10 @@
       v-if="projectData && projectData.pages"
       :pages="projectData.pages"
     ></site-map>
-    <h1 v-else>No Sitemap</h1>
+    <!-- TODO: Add visual queue to add a page when no pages are present -->
+    <v-btn fab color="accent" fixed bottom right>
+      <v-icon>add</v-icon>
+    </v-btn>
   </main>
 </template>
 
