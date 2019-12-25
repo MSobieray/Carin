@@ -38,6 +38,7 @@ const logout = async ({ commit, dispatch, rootState }) => {
     .signOut()
     .then(() => {
       commit("LOGOUT");
+      dispatch("Sidebar/set", { type: "login" }, { root: true });
       dispatch("clearState", null, { root: true });
     })
     .catch(err => {

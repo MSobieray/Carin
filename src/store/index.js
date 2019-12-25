@@ -7,7 +7,7 @@ import Global from "./global";
 import Notifications from "./modules/notifications";
 import Projects from "./modules/projects";
 import Teams from "./modules/teams";
-
+import Sidebar from "./modules/sidebar";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -17,8 +17,10 @@ const store = new Vuex.Store({
     Auth,
     Projects,
     Teams,
-    Notifications
-  }
+    Notifications,
+    Sidebar
+  },
+  strict: true
 });
 
 export default store;
