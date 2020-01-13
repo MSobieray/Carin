@@ -151,7 +151,10 @@ export default {
         created_on: new Date(), // const timestamp = snapshot.get('created_at');
         updated_on: new Date(), // const date = timestamp.toDate();
         flex: 4,
-        showStepper: true
+        showStepper: true,
+        pages: [
+          { column: 0, pages: [{ id: 0, name: "Your First Page", pages: [] }] }
+        ]
       }
     };
   },
