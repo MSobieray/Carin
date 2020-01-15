@@ -156,6 +156,7 @@ export default {
           pages: []
         }
       });
+      this.pageName = "";
     }
   }
 };
