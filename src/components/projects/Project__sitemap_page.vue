@@ -10,14 +10,9 @@
       @dragleave="dragLeave($event)"
       :class="className"
     >
-      <v-chip
-        @click="updateSidebar(page)"
-        color="secondary"
-        :label="true"
-        text-color="primary"
-      >
+      <v-sheet @click="updateSidebar(page)" light elevation="1" min-width="150">
         {{ page.name }}
-      </v-chip>
+      </v-sheet>
       <sitemap-page :data="page" :columnId="columnId"></sitemap-page>
     </div>
   </div>
@@ -89,21 +84,21 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
 .page {
-  min-height: 20px;
-
+  margin-top: 16px;
   .child-page {
     margin-left: 10px;
   }
 }
-
 .drop {
-  border: solid 1px var(--v-accent-base);
+  border: 1px solid green;
 
-  span {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  .v-sheet {
+    margin: 10px 5px;
   }
+}
+.v-sheet {
+  padding-left: 8px;
 }
 </style>

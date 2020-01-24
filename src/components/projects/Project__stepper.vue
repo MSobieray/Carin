@@ -268,7 +268,7 @@ export default {
 };
 </script>
 
-<style lang="stylus">
+<style lang="scss">
 .v-stepper {
   &__wrapper {
     overflow: visible;

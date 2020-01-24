@@ -1,13 +1,12 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import "material-design-icons-iconfont/dist/material-design-icons.css";
-import "roboto-fontface/css/roboto/roboto-fontface.css";
+
 import Vue from "vue";
 import App from "./App";
 import { auth } from "./firebase/config";
-import "./plugins/vuetify";
 import router from "./router";
 import store from "./store";
+import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
@@ -18,7 +17,9 @@ auth.onAuthStateChanged(user => {
     router,
     store,
     render: h => h(App),
-    async beforeCreate() {
+    vuetify,
+
+    beforeCreate() {
       if (user) {
         try {
           this.$store.commit("Auth/LOGIN", user);

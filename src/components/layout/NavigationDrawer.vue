@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer clipped fixed v-model="drawerProp" app>
+  <v-navigation-drawer v-model="drawerProp" app>
     <!-- TODO: Add icons to toggle sidebars -->
     <!-- Use a component :is to display the correct sidebar -->
     <component :is="`sidebar-${type}`" :user="user" />

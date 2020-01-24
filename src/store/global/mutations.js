@@ -1,3 +1,4 @@
+import Vue from "vue";
 const mutations = {
   CLEAR_STATE: state => {
     state.Projects.projects = [];
@@ -28,7 +29,10 @@ const mutations = {
         resolve("unsubscribed");
       });
     unsubscribePromise().then(() => {
-      state.listeners = state.listeners.filter(listener => listener.id != id);
+      const filteredListeners = state.listeners.filter(
+        listener => listener.id != id
+      );
+      Vue.set(state, "listeners", filteredListeners);
     });
   }
 };

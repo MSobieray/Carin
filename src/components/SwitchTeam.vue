@@ -74,10 +74,9 @@ export default {
     },
     ...mapState("Teams", ["teams"])
   }
-  // TODO -- REMOVE A LISTNER WHEN SWITCHING TEAMS -- a new action? need to modify the listner array to objects with name property to match team name
 };
 </script>
-<style scoped lang="stylus">
+<style scoped lang="scss">
 .v-input {
   display: block;
 }

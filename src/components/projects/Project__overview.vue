@@ -12,58 +12,59 @@
       v-model="sidebar"
     >
       <v-list>
-        <v-list-tile>
-          <v-list-tile-action>
+        <v-list-item>
+          <v-list-item-action>
             <v-icon>info</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Overview</v-list-tile-title>
-        </v-list-tile>
+          </v-list-item-action>
+          <v-list-item-title>Overview</v-list-item-title>
+        </v-list-item>
 
         <v-list-group>
-          <v-list-tile slot="activator">
-            <v-list-tile-content>
-              <v-list-tile-title>Development</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+          <v-list-item slot="activator">
+            <v-list-item-content>
+              <v-list-item-title>Development</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-          <v-list-tile>
-            <v-list-tile-content
+          <v-list-item>
+            <v-list-item-content
               >Repository URL:
-              {{ projectData.development.repo.url }}</v-list-tile-content
+              {{ projectData.development.repo.url }}</v-list-item-content
             >
-          </v-list-tile>
+          </v-list-item>
         </v-list-group>
 
         <v-list-group>
-          <v-list-tile slot="activator">
-            <v-list-tile-content>
-              <v-list-tile-title>Tech Stack</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+          <v-list-item slot="activator">
+            <v-list-item-content>
+              <v-list-item-title>Tech Stack</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title
                 v-text="
                   `Front-End: ${projectData.development.techStack.front_end}`
                 "
-              ></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title
+              ></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title
                 v-text="
                   `Back-End: ${projectData.development.techStack.back_end}`
                 "
-              ></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+              ></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list-group>
       </v-list>
-      <v-btn round flat color="accent" @click="edit">Edit</v-btn>
+      <v-btn rounded text color="accent" @click="edit">Edit</v-btn>
     </v-navigation-drawer>
     <h1 v-if="projectData" class="display-2">{{ projectData.title }}</h1>
+
     <site-map
       v-if="projectData && projectData.pages"
       :pages="projectData.pages"
@@ -77,7 +78,6 @@
     <v-dialog
       v-model="modal"
       max-width="1000"
-      lazy
       transition="slide-y-reverse-transition"
     >
       <v-card>
@@ -103,7 +103,21 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="accent" flat @click="createPage()">Add Page</v-btn>
+          <v-menu>
+            <template v-slot:activator="{ on }">
+              <v-btn color="accent" dark v-on="on">
+                Dropdown
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item-group>
+                <v-list-item v-for="(item, index) in items" :key="index">
+                  {{ item.title }}
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-menu>
+          <!-- <v-btn color="accent" flat @click="createPage()">Add Page</v-btn> -->
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -126,7 +140,14 @@ export default {
     sidebar: false,
     modal: false,
     pageName: "",
-    column: 0
+    column: 0,
+    value: true,
+    items: [
+      { title: "Click Me" },
+      { title: "Click Me" },
+      { title: "Click Me" },
+      { title: "Click Me 2" }
+    ]
   }),
   computed: {
     columns() {

@@ -27,10 +27,10 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
 .column {
-  padding: 20px;
-  border-right: 1px solid var(--v-secondary-base);
+  padding: 0px 20px;
+  border-right: 1px solid white;
   height: calc(100vh - 200px);
 }
 </style>
