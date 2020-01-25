@@ -182,7 +182,7 @@ export default {
   props: ["projectID", "projectData"],
   data() {
     return {
-      step: 0,
+      step: 1,
       validate: {
         step1: false
       },

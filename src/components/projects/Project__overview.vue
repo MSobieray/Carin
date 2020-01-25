@@ -106,12 +106,16 @@
           <v-menu>
             <template v-slot:activator="{ on }">
               <v-btn color="accent" dark v-on="on">
-                Dropdown
+                Save
               </v-btn>
             </template>
             <v-list>
               <v-list-item-group>
-                <v-list-item v-for="(item, index) in items" :key="index">
+                <v-list-item
+                  v-for="(item, index) in items"
+                  :key="index"
+                  @click="createPage(index)"
+                >
                   {{ item.title }}
                 </v-list-item>
               </v-list-item-group>
@@ -142,12 +146,7 @@ export default {
     pageName: "",
     column: 0,
     value: true,
-    items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" }
-    ]
+    items: [{ title: "Save" }, { title: "Save & Close" }, { title: "Cancel" }]
   }),
   computed: {
     columns() {
@@ -167,16 +166,26 @@ export default {
     openModal() {
       this.modal = true;
     },
-    createPage() {
-      this.$store.dispatch("Projects/createPage", {
-        projectId: this.$route.params.projectID,
-        column: this.column,
-        page: {
-          // id: incremented by firebase
-          name: this.pageName,
-          pages: []
+    closeModal() {
+      this.modal = false;
+    },
+    createPage(index) {
+      if (index === 0 || index === 1) {
+        this.$store.dispatch("Projects/createPage", {
+          projectId: this.$route.params.projectID,
+          column: this.column,
+          page: {
+            // id: incremented by firebase
+            name: this.pageName,
+            pages: []
+          }
+        });
+        if (index === 1) {
+          this.closeModal();
         }
-      });
+      } else {
+        this.closeModal();
+      }
       this.pageName = "";
     }
   }
