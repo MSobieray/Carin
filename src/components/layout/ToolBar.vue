@@ -14,7 +14,6 @@ export default {
   name: "ToolBar",
   props: {
     drawer: {
-      type: Boolean,
       required: true
     }
   },

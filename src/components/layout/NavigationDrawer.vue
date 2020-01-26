@@ -14,6 +14,7 @@ import { mapState } from "vuex";
 import SidebarMain from "../sidebars/Sidebar_main";
 import SidebarLogin from "../sidebars/Sidebar_login";
 import SidebarPage from "../sidebars/Sidebar_page";
+
 export default {
   name: "NavigationDrawer",
   props: {
@@ -21,7 +22,6 @@ export default {
       type: [Object, Boolean]
     },
     drawer: {
-      type: Boolean,
       required: true
     }
   },
