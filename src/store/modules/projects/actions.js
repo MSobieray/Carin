@@ -34,7 +34,7 @@ const getProjects = ({ commit, dispatch }, { currentTeam }) => {
     });
   dispatch(
     "addListener",
-    { listener: projectListner, id: currentTeam },
+    { listener: projectListner, id: currentTeam, type: "projects" },
     { root: true }
   );
 };
@@ -51,7 +51,7 @@ const getProjectData = ({ commit, dispatch }, { project, currentTeam }) => {
   });
   dispatch(
     "addListener",
-    { listener: projectDataListner, id: currentTeam },
+    { listener: projectDataListner, id: currentTeam, type: "project data" },
     { root: true }
   );
 };

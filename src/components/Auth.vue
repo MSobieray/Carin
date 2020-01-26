@@ -17,7 +17,7 @@
               Twitter Login
             </v-btn>
           </div>
-          <div v-else-if="user.name && loading">
+          <div v-else-if="loading">
             <loader />
           </div>
           <div v-else>

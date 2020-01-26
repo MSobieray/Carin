@@ -1,5 +1,6 @@
-import { auth } from "../firebase/config";
-import store from "../store";
+import { auth } from "@/firebase/config";
+import store from "@/store";
+import router from "@/router";
 /**
  *
  * @param {Array} pages an array with nested objects
@@ -108,14 +109,19 @@ export const checkAuthStatus = () => {
   return new Promise((resolve, reject) => {
     try {
       auth.onAuthStateChanged(user => {
-        if (user) {
+        if (user && !store.state.Auth.user.uid) {
           store.dispatch("Auth/setUser", user);
           store.dispatch("loading", true);
           store.dispatch("Auth/createUser", user);
           store.dispatch("Sidebar/set", { type: "main" }, { root: true });
+          if (router.currentRoute.name === "login") {
+            router.push({ name: "dashboard" });
+          }
           resolve(user);
+        } else if (user && store.state.Auth.user.uid) {
+          resolve("already logged in");
         } else {
-          resolve("no user");
+          resolve("not logged in");
         }
       });
     } catch {
