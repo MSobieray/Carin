@@ -1,70 +1,6 @@
 <template>
   <main>
-    <!-- TODO: move into the contextual sidebar -->
-    <v-navigation-drawer
-      app
-      stateless
-      clipped
-      right
-      fixed
-      value="true"
-      v-if="projectData"
-      v-model="sidebar"
-    >
-      <v-list>
-        <v-list-item>
-          <v-list-item-action>
-            <v-icon>info</v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Overview</v-list-item-title>
-        </v-list-item>
-
-        <v-list-group>
-          <v-list-item slot="activator">
-            <v-list-item-content>
-              <v-list-item-title>Development</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-content
-              >Repository URL:
-              {{ projectData.development.repo.url }}</v-list-item-content
-            >
-          </v-list-item>
-        </v-list-group>
-
-        <v-list-group>
-          <v-list-item slot="activator">
-            <v-list-item-content>
-              <v-list-item-title>Tech Stack</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title
-                v-text="
-                  `Front-End: ${projectData.development.techStack.front_end}`
-                "
-              ></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title
-                v-text="
-                  `Back-End: ${projectData.development.techStack.back_end}`
-                "
-              ></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-group>
-      </v-list>
-      <v-btn rounded text color="accent" @click="edit">Edit</v-btn>
-    </v-navigation-drawer>
     <h1 v-if="projectData" class="display-2">{{ projectData.title }}</h1>
-
     <site-map
       v-if="projectData && projectData.pages"
       :pages="projectData.pages"
@@ -134,14 +70,14 @@ export default {
   name: "ProjectOverview",
   props: {
     projectData: {
-      type: Object
+      type: Object,
+      required: true
     }
   },
   components: {
     "site-map": siteMap
   },
   data: () => ({
-    sidebar: false,
     modal: false,
     pageName: "",
     column: 0,

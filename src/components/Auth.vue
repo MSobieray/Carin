@@ -3,7 +3,7 @@
     <v-container align-content-center>
       <v-layout row wrap>
         <v-flex lg12 text-lg-center>
-          <div v-if="!user && !loading">
+          <div v-if="!user.name && !loading">
             <v-btn @click="login('Google')" color="green">
               Google Login
             </v-btn>
@@ -17,7 +17,7 @@
               Twitter Login
             </v-btn>
           </div>
-          <div v-else-if="user && loading">
+          <div v-else-if="user.name && loading">
             <loader />
           </div>
           <div v-else>

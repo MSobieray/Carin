@@ -7,7 +7,7 @@ import Team from "@/components/Team";
 import SwitchTeams from "@/components/SwitchTeam";
 import Project from "@/components/projects/Project";
 import ProjectOverview from "@/components/projects/Project__overview";
-import { auth } from "../firebase/config";
+import { checkAuthStatus } from "@/util";
 
 Vue.use(Router);
 
@@ -79,12 +79,20 @@ const router = new Router({
  * is authenticated with Firebase
  */
 
-router.beforeEach((to, from, next) => {
-  const currentUser = auth.currentUser;
+router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-
-  if (requiresAuth && !currentUser) {
-    next("/login");
+  if (requiresAuth) {
+    checkAuthStatus()
+      .then(res => {
+        if (res.uid) {
+          next();
+        } else {
+          next("/login");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   } else {
     next();
   }

@@ -143,7 +143,7 @@
               required
             ></v-select>
             <v-textarea
-              box
+              filled
               class="pb-5 mt-3"
               name="design-notes"
               label="Notes"
@@ -156,7 +156,7 @@
             Next
           </v-btn>
 
-          <v-btn flat @click="step -= 1">Back</v-btn>
+          <v-btn text @click="step -= 1">Back</v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="3">
@@ -170,7 +170,7 @@
             Save
           </v-btn>
 
-          <v-btn flat @click="step -= 1">Back</v-btn>
+          <v-btn text @click="step -= 1">Back</v-btn>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>

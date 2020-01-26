@@ -1,3 +1,5 @@
+import { auth } from "../firebase/config";
+import store from "../store";
 /**
  *
  * @param {Array} pages an array with nested objects
@@ -101,3 +103,23 @@ export function removePage(allPages, removedPage, toPageId) {
     removePage(next, removedPage, toPageId);
   }
 }
+
+export const checkAuthStatus = () => {
+  return new Promise((resolve, reject) => {
+    try {
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          store.dispatch("Auth/setUser", user);
+          store.dispatch("loading", true);
+          store.dispatch("Auth/createUser", user);
+          store.dispatch("Sidebar/set", { type: "main" }, { root: true });
+          resolve(user);
+        } else {
+          resolve("no user");
+        }
+      });
+    } catch {
+      reject("api failed");
+    }
+  });
+};

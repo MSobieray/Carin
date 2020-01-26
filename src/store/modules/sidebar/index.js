@@ -1,7 +1,7 @@
 import mutations from "./mutations";
 import actions from "./actions";
 const state = {
-  visible: true,
+  visible: null,
   type: "login",
   page: null
 };
