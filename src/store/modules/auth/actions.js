@@ -29,18 +29,16 @@ const createUser = ({ dispatch }, user) => {
  * @return {Promise} firebase promise
  */
 const logout = async ({ commit, dispatch, rootState }) => {
-  // unsubscribe from any active firesotre listeners
-  rootState.listeners.forEach(listener => {
-    listener.unsubscribe();
-  });
-
   auth
     .signOut()
     .then(() => {
       commit("LOGOUT");
+      dispatch("removeListener", rootState.Teams.currentTeam, { root: true });
       dispatch("Sidebar/set", { type: "login" }, { root: true });
       dispatch("clearState", null, { root: true });
-      router.replace({ name: "login" });
+      if (router.currentRoute.name !== "login") {
+        router.push({ name: "login" });
+      }
     })
     .catch(err => {
       dispatch("Notifications/add", { type: "error", ...err }, { root: true });
