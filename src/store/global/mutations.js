@@ -1,4 +1,4 @@
-import Vue from "vue";
+// import Vue from "vue";
 const mutations = {
   CLEAR_STATE: state => {
     state.Projects.projects = [];
@@ -10,9 +10,10 @@ const mutations = {
   LOADING: (state, payload) => {
     state.loading = payload;
   },
-  ADD_LISTENER: (state, { listener, id }) => {
+  ADD_LISTENER: (state, { listener, id, type }) => {
     state.listeners.push({
       id,
+      type,
       unsubscribe: listener
     });
   },
@@ -20,20 +21,15 @@ const mutations = {
     const activeListeners = state.listeners.filter(
       listener => listener.id === id
     );
-    // Promise to unsubscribe from current listeners before removing them from state
-    const unsubscribePromise = () =>
-      new Promise(resolve => {
-        activeListeners.forEach(listener => {
-          listener.unsubscribe();
-        });
-        resolve("unsubscribed");
-      });
-    unsubscribePromise().then(() => {
-      const filteredListeners = state.listeners.filter(
-        listener => listener.id != id
-      );
-      Vue.set(state, "listeners", filteredListeners);
+
+    activeListeners.forEach(listener => {
+      listener.unsubscribe();
     });
+
+    const filteredListeners = state.listeners.filter(
+      listener => listener.id != id
+    );
+    state.listeners = filteredListeners;
   }
 };
 
