@@ -1,8 +1,27 @@
 <template>
-  <v-navigation-drawer v-model="drawerProp" app>
-    <!-- TODO: Add icons to toggle sidebars -->
+  <v-navigation-drawer v-model="drawerProp" width="75%" app>
+    <v-tabs
+      v-model="tab"
+      show-arrows
+      center-active
+      slider-size="1"
+      centered
+      grow
+      background-color="primary"
+    >
+      <v-tabs-slider></v-tabs-slider>
+      <v-tab href="#tab-1">Main</v-tab>
+      <v-tab href="#tab-2">Project Info</v-tab>
+      <v-tab href="#tab-3">Page Info</v-tab>
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="i in 3" :key="i" :value="'tab-' + i">
+          <component :is="`sidebar-${type}`" :user="user" />
+        </v-tab-item>
+      </v-tabs-items>
+    </v-tabs>
+
     <!-- Use a component :is to display the correct sidebar -->
-    <component :is="`sidebar-${type}`" :user="user" />
+
     <!-- <sidebar-main :user="user" v-if="user && type === 'default'" />
     <sidebar-login v-else-if="!user" />
     <sidebar-page v-if="type === 'page'" /> -->
@@ -11,9 +30,9 @@
 
 <script>
 import { mapState } from "vuex";
-import SidebarMain from "../sidebars/Sidebar_main";
-import SidebarLogin from "../sidebars/Sidebar_login";
-import SidebarPage from "../sidebars/Sidebar_page";
+import SidebarMain from "@/components/sidebars/Sidebar_main";
+import SidebarLogin from "@/components/sidebars/Sidebar_login";
+import SidebarPage from "@/components/sidebars/Sidebar_page";
 
 export default {
   name: "NavigationDrawer",
@@ -27,7 +46,7 @@ export default {
   },
   data() {
     return {
-      sidebar: this.type
+      tab: null
     };
   },
   components: {

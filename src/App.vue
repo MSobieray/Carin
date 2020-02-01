@@ -17,10 +17,10 @@
 
 <script>
 import { mapState } from "vuex";
-import Footer from "./components/layout/Footer";
-import NavigationDrawer from "./components/layout/NavigationDrawer";
-import Notification from "./components/global/Notification";
-import ToolBar from "./components/layout/ToolBar";
+import Footer from "@/components/layout/Footer";
+import NavigationDrawer from "@/components/layout/NavigationDrawer";
+import Notification from "@/components/global/Notification";
+import ToolBar from "@/components/layout/ToolBar";
 export default {
   name: "app",
 
