@@ -1,16 +1,22 @@
 <template>
-  <v-footer v-if="user && currentTeam" app fixed height="auto">
-    <v-layout justify-center>
-      <v-btn color="secondary" dark block flat to="/">
-        <v-icon>dashboard</v-icon>
-      </v-btn>
-      <v-btn color="secondary" dark block flat to="/settings">
-        <v-icon>terrain</v-icon>
-      </v-btn>
-      <v-btn color="secondary" dark block flat to="/team/switch">
-        <v-icon>swap_horiz</v-icon>
-      </v-btn>
-    </v-layout>
+  <v-footer v-if="user && currentTeam" app>
+    <v-row no-gutters>
+      <v-col>
+        <v-btn color="secondary" text block to="/">
+          <v-icon>dashboard</v-icon>
+        </v-btn>
+      </v-col>
+      <v-col>
+        <v-btn color="secondary" text block to="/settings">
+          <v-icon>terrain</v-icon>
+        </v-btn>
+      </v-col>
+      <v-col>
+        <v-btn color="secondary" text block to="/team/switch">
+          <v-icon>swap_horiz</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-footer>
 </template>
 

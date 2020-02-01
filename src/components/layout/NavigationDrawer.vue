@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer clipped fixed v-model="drawerProp" app>
+  <v-navigation-drawer v-model="drawerProp" app>
     <!-- TODO: Add icons to toggle sidebars -->
     <!-- Use a component :is to display the correct sidebar -->
     <component :is="`sidebar-${type}`" :user="user" />
@@ -14,6 +14,7 @@ import { mapState } from "vuex";
 import SidebarMain from "../sidebars/Sidebar_main";
 import SidebarLogin from "../sidebars/Sidebar_login";
 import SidebarPage from "../sidebars/Sidebar_page";
+
 export default {
   name: "NavigationDrawer",
   props: {
@@ -21,7 +22,6 @@ export default {
       type: [Object, Boolean]
     },
     drawer: {
-      type: Boolean,
       required: true
     }
   },

@@ -1,4 +1,4 @@
-const LOGIN = (state, { displayName, email, uid, photoURL }) => {
+const SET_USER = (state, { displayName, email, uid, photoURL }) => {
   state.user = {
     name: displayName,
     email,
@@ -9,4 +9,4 @@ const LOGIN = (state, { displayName, email, uid, photoURL }) => {
 const LOGOUT = state => {
   state.user = false;
 };
-export default { LOGIN, LOGOUT };
+export default { SET_USER, LOGOUT };

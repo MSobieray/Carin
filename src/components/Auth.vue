@@ -3,7 +3,7 @@
     <v-container align-content-center>
       <v-layout row wrap>
         <v-flex lg12 text-lg-center>
-          <div v-if="!isLoggedIn && !loading">
+          <div v-if="!user.name && !loading">
             <v-btn @click="login('Google')" color="green">
               Google Login
             </v-btn>
@@ -17,7 +17,7 @@
               Twitter Login
             </v-btn>
           </div>
-          <div v-else-if="!isLoggedIn && loading">
+          <div v-else-if="loading">
             <loader />
           </div>
           <div v-else>
@@ -33,6 +33,7 @@
 import { mapState } from "vuex";
 import loader from "./global/Loader";
 export default {
+  name: "Auth",
   components: {
     loader
   },
@@ -45,16 +46,10 @@ export default {
     }
   },
   computed: {
-    isLoggedIn() {
-      if (this.$store.getters["Auth/user"]) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    ...mapState(["loading"])
+    ...mapState(["loading"]),
+    ...mapState("Auth", ["user"])
   }
 };
 </script>
 
-<style lang="stylus"></style>
+<style lang="scss"></style>

@@ -4,10 +4,10 @@ import getters from "./getters";
 
 const state = {
   user: {
-    displayName: "",
-    email: "",
-    uid: "",
-    photphotoURL: ""
+    displayName: null,
+    email: null,
+    uid: null,
+    photphotoURL: null
   }
 };
 

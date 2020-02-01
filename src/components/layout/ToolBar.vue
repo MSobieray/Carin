@@ -1,11 +1,11 @@
 <template>
-  <v-toolbar app fixed clipped-left>
-    <v-toolbar-side-icon
+  <v-app-bar app>
+    <v-app-bar-nav-icon
       @click.stop="toggleDrawer"
       v-if="currentTeam"
-    ></v-toolbar-side-icon>
+    ></v-app-bar-nav-icon>
     <v-toolbar-title>Cairn Website Management</v-toolbar-title>
-  </v-toolbar>
+  </v-app-bar>
 </template>
 
 <script>
@@ -14,7 +14,6 @@ export default {
   name: "ToolBar",
   props: {
     drawer: {
-      type: Boolean,
       required: true
     }
   },

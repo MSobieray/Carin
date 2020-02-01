@@ -1,4 +1,5 @@
 import { firestore } from "@/firebase/config.js";
+import { increment } from "@/firebase/config";
 
 const createProject = ({ rootState }, project) => {
   const projectDoc = firestore
@@ -33,7 +34,7 @@ const getProjects = ({ commit, dispatch }, { currentTeam }) => {
     });
   dispatch(
     "addListener",
-    { listener: projectListner, id: currentTeam },
+    { listener: projectListner, id: currentTeam, type: "projects" },
     { root: true }
   );
 };
@@ -50,7 +51,7 @@ const getProjectData = ({ commit, dispatch }, { project, currentTeam }) => {
   });
   dispatch(
     "addListener",
-    { listener: projectDataListner, id: currentTeam },
+    { listener: projectDataListner, id: currentTeam, type: "project data" },
     { root: true }
   );
 };
@@ -88,7 +89,7 @@ const updateProject = ({ rootState }, data) => {
   // Commit the batch
   batch.commit();
 };
-const addPage = ({ rootState }, data) => {
+const updateSitemap = ({ rootState }, data) => {
   const projectRef = firestore
     .collection("Teams")
     .doc(rootState.Teams.currentTeam)
@@ -98,10 +99,30 @@ const addPage = ({ rootState }, data) => {
   return projectRef.set({ pages: data.pages }, { merge: true });
 };
 
+const createPage = ({ commit, rootState }, { projectId, column, page }) => {
+  const pagesData = firestore
+    .collection("Teams")
+    .doc(rootState.Teams.currentTeam)
+    .collection("Projects")
+    .doc(projectId)
+    .collection("meta")
+    .doc("data");
+
+  pagesData.set({ pageCount: increment(1) }, { merge: true }).then(() => {
+    pagesData.get().then(doc => {
+      commit("ADD_PAGE", {
+        column,
+        page: Object.assign(page, { id: doc.data().pageCount })
+      });
+    });
+  });
+};
+
 export default {
-  addPage,
+  updateSitemap,
   createProject,
   getProjects,
   getProjectData,
-  updateProject
+  updateProject,
+  createPage
 };

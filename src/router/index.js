@@ -7,7 +7,8 @@ import Team from "@/components/Team";
 import SwitchTeams from "@/components/SwitchTeam";
 import Project from "@/components/projects/Project";
 import ProjectOverview from "@/components/projects/Project__overview";
-import { auth } from "../firebase/config";
+import { checkAuthStatus } from "@/util";
+import Store from "@/store";
 
 Vue.use(Router);
 
@@ -80,11 +81,19 @@ const router = new Router({
  */
 
 router.beforeEach((to, from, next) => {
-  const currentUser = auth.currentUser;
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-
-  if (requiresAuth && !currentUser) {
-    next("/login");
+  if (requiresAuth && !Store.state.Auth.user.uid) {
+    checkAuthStatus()
+      .then(res => {
+        if (res.uid) {
+          next();
+        } else {
+          next("/login");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   } else {
     next();
   }

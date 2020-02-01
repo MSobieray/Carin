@@ -1,6 +1,6 @@
 <template>
   <v-list>
-    <v-list-tile-title>{{ page.name }}</v-list-tile-title>
+    <v-list-item-title>{{ page.name }}</v-list-item-title>
   </v-list>
 </template>
 

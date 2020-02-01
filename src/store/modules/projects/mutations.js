@@ -16,9 +16,22 @@ const UPDATE_SITEMAP = (state, { movedPage, toPageId, toPageIndex }) => {
   addPage(pagesArray, toPageId, toPageIndex, movedPage);
 };
 
+const ADD_PAGE = (state, { column, page }) => {
+  // find an existing column
+  const columnObj = state.projectData.pages.find(obj => {
+    return obj.column === column;
+  });
+  if (typeof columnObj === "object") {
+    columnObj.pages[0].pages.push(page);
+  } else {
+    state.projectData.pages.push({ column, pages: [page] });
+  }
+};
+
 export default {
   SET_PROJECTS,
   SET_PROJECT_DATA,
   SHOW_STEPPER,
-  UPDATE_SITEMAP
+  UPDATE_SITEMAP,
+  ADD_PAGE
 };

@@ -60,7 +60,7 @@
                   <v-btn
                     :to="`/team/${slug(currentTeam)}/project/${project[1]}`"
                     color="accent"
-                    flat
+                    text
                   >
                     Open
                     <v-icon>navigate_next</v-icon>
@@ -98,7 +98,6 @@
       <v-dialog
         v-model="modal"
         max-width="1000"
-        lazy
         transition="slide-y-reverse-transition"
       >
         <v-card>
@@ -151,7 +150,10 @@ export default {
         created_on: new Date(), // const timestamp = snapshot.get('created_at');
         updated_on: new Date(), // const date = timestamp.toDate();
         flex: 4,
-        showStepper: true
+        showStepper: true,
+        pages: [
+          { column: 0, pages: [{ id: 0, name: "Your First Page", pages: [] }] }
+        ]
       }
     };
   },
@@ -181,10 +183,4 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-.layout {
-  .fill-height {
-    background-color: $primray;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
