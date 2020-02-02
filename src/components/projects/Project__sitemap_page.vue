@@ -76,7 +76,7 @@ export default {
     },
     updateSidebar(page) {
       this.$store.commit("Sidebar/TOGGLE", true);
-      this.$store.commit("Sidebar/UPATE", { type: "page" });
+      this.$store.commit("Sidebar/UPDATE", { type: "page" });
       this.$store.commit("Sidebar/UPDATE_PAGE", page);
     }
   }
