@@ -14,7 +14,7 @@
     ></project-steppper>
 
     <!-- Sidebar -->
-    <router-view :projectData="getProject"></router-view>
+    <router-view v-if="getProject" :projectData="getProject"></router-view>
     <!-- SITE MAP -->
 
     <!-- SIDEBARS -->
@@ -67,9 +67,6 @@ export default {
         project,
         currentTeam
       });
-    },
-    edit() {
-      this.$store.commit("Projects/SHOW_STEPPER", true);
     }
   }
 };

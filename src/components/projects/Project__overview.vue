@@ -1,10 +1,7 @@
 <template>
   <main>
     <h1 v-if="projectData" class="display-2">{{ projectData.title }}</h1>
-    <site-map
-      v-if="projectData && projectData.pages"
-      :pages="projectData.pages"
-    ></site-map>
+    <site-map v-if="projectData" :pages="projectData.pages"></site-map>
     <!-- TODO: Add visual queue to add a page when no pages are present -->
     <v-btn fab color="accent" fixed bottom right @click="openModal">
       <v-icon>add</v-icon>

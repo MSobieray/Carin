@@ -4,11 +4,14 @@ const TOGGLE = (state, payload = !state.visible) => {
 
 const UPDATE = (state, payload) => {
   state.type = payload.type;
-  // Temporary State Update
+};
+
+const UPDATE_PAGE = (state, payload) => {
   state.page = payload;
 };
 
 export default {
   TOGGLE,
-  UPDATE
+  UPDATE,
+  UPDATE_PAGE
 };

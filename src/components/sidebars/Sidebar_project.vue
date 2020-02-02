@@ -53,7 +53,16 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  name: "ProjectSidebar",
+  computed: mapState("Projects", ["projectData"]),
+  methods: {
+    edit() {
+      this.$store.commit("Projects/SHOW_STEPPER", true);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped></style>
