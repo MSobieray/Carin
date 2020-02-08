@@ -1,4 +1,5 @@
 <template>
+  <!-- Recursive Component -->
   <div>
     <div
       v-for="(page, index) in data.pages"
@@ -75,10 +76,8 @@ export default {
     },
     updateSidebar(page) {
       this.$store.commit("Sidebar/TOGGLE", true);
-      this.$store.commit(
-        "Sidebar/UPDATE",
-        Object.assign(page, { type: "page" })
-      );
+      this.$store.commit("Sidebar/UPDATE", { type: "sidebar-page" });
+      this.$store.commit("Sidebar/UPDATE_PAGE", page);
     }
   }
 };

@@ -1,20 +1,38 @@
 <template>
-  <v-navigation-drawer v-model="drawerProp" app>
-    <!-- TODO: Add icons to toggle sidebars -->
-    <!-- Use a component :is to display the correct sidebar -->
-    <component :is="`sidebar-${type}`" :user="user" />
-    <!-- <sidebar-main :user="user" v-if="user && type === 'default'" />
-    <sidebar-login v-else-if="!user" />
-    <sidebar-page v-if="type === 'page'" /> -->
+  <v-navigation-drawer v-model="drawerProp" width="80%" app>
+    <template slot="prepend">
+      <v-tabs
+        v-model="tab"
+        show-arrows
+        center-active
+        slider-size="1"
+        centered
+        grow
+        background-color="primary"
+        v-if="displayTabs"
+      >
+        <v-tabs-slider></v-tabs-slider>
+        <v-tab href="#sidebar-main">Main</v-tab>
+        <v-tab href="#sidebar-project">Project Info</v-tab>
+        <v-tab v-if="page" href="#sidebar-page">Page Info</v-tab>
+      </v-tabs>
+    </template>
+    <template slot="default">
+      <v-tabs-items v-model="tab">
+        <v-tab-item :value="`${type}`">
+          <component :is="`${type}`" :user="user" />
+        </v-tab-item>
+      </v-tabs-items>
+    </template>
   </v-navigation-drawer>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import SidebarMain from "../sidebars/Sidebar_main";
-import SidebarLogin from "../sidebars/Sidebar_login";
-import SidebarPage from "../sidebars/Sidebar_page";
-
+import SidebarMain from "@/components/sidebars/Sidebar_main";
+import SidebarLogin from "@/components/sidebars/Sidebar_login";
+import SidebarPage from "@/components/sidebars/Sidebar_page";
+import SidebarProject from "@/components/sidebars/Sidebar_project";
 export default {
   name: "NavigationDrawer",
   props: {
@@ -22,21 +40,18 @@ export default {
       type: [Object, Boolean]
     },
     drawer: {
+      // vuetify requires default to be null
       required: true
     }
-  },
-  data() {
-    return {
-      sidebar: this.type
-    };
   },
   components: {
     SidebarMain,
     SidebarLogin,
-    SidebarPage
+    SidebarPage,
+    SidebarProject
   },
   computed: {
-    ...mapState("Sidebar", ["type"]),
+    ...mapState("Sidebar", ["type", "page"]),
     drawerProp: {
       get() {
         return this.drawer;
@@ -46,12 +61,24 @@ export default {
           this.$emit("toggleDrawer", val);
         }
       }
-    }
-  },
-  watch: {
-    type(val) {
-      this.sidebar = val;
+    },
+    tab: {
+      get() {
+        return this.type;
+      },
+      set(val) {
+        this.$store.dispatch("Sidebar/set", { type: val });
+      }
+    },
+    displayTabs() {
+      return this.$route.name === "ProjectOverview";
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.v-navigation-drawer {
+  max-width: 400px;
+}
+</style>
