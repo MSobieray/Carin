@@ -11,21 +11,18 @@
         centered
         grow
         background-color="primary"
+        v-if="displayTabs"
       >
         <v-tabs-slider></v-tabs-slider>
-        <v-tab href="#tab-1" @click="changeSidebar('main')">Main</v-tab>
-        <v-tab href="#tab-2" @click="changeSidebar('project')"
-          >Project Info</v-tab
-        >
-        <v-tab v-if="page" href="#tab-3" @click="changeSidebar('page')"
-          >Page Info</v-tab
-        >
+        <v-tab href="#sidebar-main">Main</v-tab>
+        <v-tab href="#sidebar-project">Project Info</v-tab>
+        <v-tab v-if="page" href="#sidebar-page">Page Info</v-tab>
       </v-tabs>
     </template>
     <template slot="default">
       <v-tabs-items v-model="tab">
-        <v-tab-item v-for="i in 3" :key="i" :value="'tab-' + i">
-          <component :is="`sidebar-${type}`" :user="user" />
+        <v-tab-item :value="`${type}`">
+          <component :is="`${type}`" :user="user" />
         </v-tab-item>
       </v-tabs-items>
     </template>
@@ -49,11 +46,6 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      tab: null
-    };
-  },
   components: {
     SidebarMain,
     SidebarLogin,
@@ -72,18 +64,16 @@ export default {
         }
       }
     },
+    tab: {
+      get() {
+        return this.type;
+      },
+      set(val) {
+        this.$store.dispatch("Sidebar/set", { type: val });
+      }
+    },
     displayTabs() {
-      return this.$router.name === "ProjectOverview";
-    }
-  },
-  methods: {
-    changeSidebar(sidebar) {
-      this.$store.dispatch("Sidebar/set", { type: sidebar });
-    }
-  },
-  watch: {
-    type(val) {
-      this.sidebar = val;
+      return this.$route.name === "ProjectOverview";
     }
   }
 };
