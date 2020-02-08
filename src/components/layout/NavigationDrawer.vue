@@ -1,7 +1,5 @@
 <template>
   <v-navigation-drawer v-model="drawerProp" width="80%" app>
-    <!-- TODO: Only Show the tabs if inside of a project else just use main sidebar -->
-
     <template slot="prepend">
       <v-tabs
         v-model="tab"
