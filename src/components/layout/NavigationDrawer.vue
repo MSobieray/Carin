@@ -9,11 +9,10 @@
         centered
         grow
         background-color="primary"
-        v-if="displayTabs"
       >
         <v-tabs-slider></v-tabs-slider>
         <v-tab href="#sidebar-main">Main</v-tab>
-        <v-tab href="#sidebar-project">Project Info</v-tab>
+        <v-tab v-if="projectData" href="#sidebar-project">Project Info</v-tab>
         <v-tab v-if="page" href="#sidebar-page">Page Info</v-tab>
       </v-tabs>
     </template>
@@ -52,6 +51,7 @@ export default {
   },
   computed: {
     ...mapState("Sidebar", ["type", "page"]),
+    ...mapState("Projects", ["projectData"]),
     drawerProp: {
       get() {
         return this.drawer;
@@ -69,9 +69,6 @@ export default {
       set(val) {
         this.$store.dispatch("Sidebar/set", { type: val });
       }
-    },
-    displayTabs() {
-      return this.$route.name === "ProjectOverview";
     }
   }
 };
