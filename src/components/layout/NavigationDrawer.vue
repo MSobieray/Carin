@@ -9,6 +9,7 @@
         centered
         grow
         background-color="primary"
+        v-show="projectData || page"
       >
         <v-tabs-slider></v-tabs-slider>
         <v-tab href="#sidebar-main">Main</v-tab>
