@@ -1,4 +1,4 @@
-import { addPage, removePage } from "../../../util";
+import { addPage, removePage, editPage } from "../../../util";
 
 const SET_PROJECTS = (state, payload) => {
   state.projects = payload;
@@ -28,10 +28,16 @@ const ADD_PAGE = (state, { column, page }) => {
   }
 };
 
+const EDIT_PAGE = (state, updatedPage) => {
+  const pages = state.projectData.pages;
+  editPage(pages, updatedPage);
+};
+
 export default {
   SET_PROJECTS,
   SET_PROJECT_DATA,
   SHOW_STEPPER,
   UPDATE_SITEMAP,
-  ADD_PAGE
+  ADD_PAGE,
+  EDIT_PAGE
 };
