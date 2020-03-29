@@ -89,6 +89,7 @@ const updateProject = ({ rootState }, data) => {
   // Commit the batch
   batch.commit();
 };
+
 const updateSitemap = ({ rootState }, data) => {
   const projectRef = firestore
     .collection("Teams")

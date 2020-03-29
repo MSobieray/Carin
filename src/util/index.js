@@ -105,6 +105,36 @@ export function removePage(allPages, removedPage, toPageId) {
   }
 }
 
+export function editPage(pages, updatedPage) {
+  let page;
+  let next = [];
+  for (let i = 0; i < pages.length; i++) {
+    if (pages[i]) {
+      page = pages[i].pages.find(page => {
+        return page.id === updatedPage.id;
+      });
+    }
+    if (page) {
+      const pageIndex = pages[i].pages.findIndex(page => {
+        return page.id === updatedPage.id;
+      });
+      pages[i].pages.splice(pageIndex, 1, updatedPage);
+      break;
+    } else {
+      pages[i].pages.forEach(page => {
+        if (page.pages.length) {
+          next.push({
+            pages: page.pages
+          });
+        }
+      });
+    }
+  }
+  if (next.length) {
+    editPage(next, updatedPage);
+  }
+}
+
 export const checkAuthStatus = () => {
   return new Promise((resolve, reject) => {
     try {
